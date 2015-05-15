@@ -150,8 +150,7 @@ public class SnackBar extends Dialog{
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO 自动生成的方法存根
-		 if (keyCode == KeyEvent.KEYCODE_BACK )  {
+			if (keyCode == KeyEvent.KEYCODE_BACK )  {
 			 dismiss();
 		 }
 		return super.onKeyDown(keyCode, event);

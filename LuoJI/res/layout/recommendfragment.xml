@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.yalantis.taurus.PullToRefreshView
+        android:id="@+id/recommendfragment_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <ListView
+            android:id="@+id/recommendfragment_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#efefef"
+            android:dividerHeight="20dp"
+            android:fadingEdge="none" 
+            android:background="#ffffff"
+            android:scrollbars="none"/>
+    </com.yalantis.taurus.PullToRefreshView>
+
+</LinearLayout>
