@@ -7,6 +7,15 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="21" />
+    <!-- 网络请求权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 在SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 往SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +24,7 @@
         <activity
             android:name="com.louji.base.LoujiActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,10 +34,12 @@
         </activity>
         <activity
             android:name="com.louji.slidingmenu.MenuActivity"
-            android:theme="@style/AccountsLight" />
+            android:theme="@style/AccountsLight" 
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.louji.slidingmenu.SettingsActivity"
-            android:theme="@style/AccountsLight" />
+            android:theme="@style/AccountsLight"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

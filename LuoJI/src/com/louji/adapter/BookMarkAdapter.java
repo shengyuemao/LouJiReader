@@ -4,17 +4,15 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFlat;
-import com.gc.materialdesign.views.ButtonFloat;
 import com.louji.base.R;
 import com.louji.bean.BookBean;
 
@@ -24,6 +22,10 @@ public class BookMarkAdapter extends BaseAdapter
 
 	private List<BookBean> bookBeans;
 	private Context context;
+
+	private OnLineReaderListener onLineReaderListener;
+
+	private OnDownLoadListener onDownLoadListener;
 
 	public BookMarkAdapter(Context context, List<BookBean> bookBeans)
 	{
@@ -53,7 +55,7 @@ public class BookMarkAdapter extends BaseAdapter
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
+	public View getView(final int position, View convertView, ViewGroup parent)
 	{
 		final ViewHolder viewHolder;
 		if (convertView == null)
@@ -72,18 +74,61 @@ public class BookMarkAdapter extends BaseAdapter
 			viewHolder.bookDownload = (ButtonFlat) convertView
 					.findViewById(R.id.recommendfragment_item_book_download);
 			convertView.setTag(viewHolder);
-		}else{
-			viewHolder = (ViewHolder)convertView.getTag();
+		} else
+		{
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		
-		/*Uri uri = Uri.parse(getItem(position).getImageUrl());//œ¬‘ÿÕº∆¨		
-		viewHolder.imageView.setImageURI(uri);*/
-		
+
+		/*
+		 * Uri uri = Uri.parse(getItem(position).getImageUrl());//œ¬‘ÿÕº∆¨
+		 * viewHolder.imageView.setImageURI(uri);
+		 */
+
 		viewHolder.bookTitle.setText(getItem(position).getBookTitle());
-		
+
 		viewHolder.bookBody.setText(getItem(position).getBookInfo());
-		
+
+		viewHolder.bookOnline.setOnClickListener(new OnClickListener()
+		{
+
+			@Override
+			public void onClick(View v)
+			{
+				if (onLineReaderListener != null)
+				{
+					onLineReaderListener.onReader(getItem(position));
+				}
+
+			}
+		});
+
+		viewHolder.bookDownload.setOnClickListener(new OnClickListener()
+		{
+
+			@Override
+			public void onClick(View v)
+			{
+				
+				if (onDownLoadListener != null)
+				{
+					onDownLoadListener.download(getItem(position),v);
+				}
+
+			}
+		});
+
 		return convertView;
+	}
+
+	public void setOnLineReaderListener(
+			OnLineReaderListener onLineReaderListener)
+	{
+		this.onLineReaderListener = onLineReaderListener;
+	}
+
+	public void setOnDownLoadListener(OnDownLoadListener onDownLoadListener)
+	{
+		this.onDownLoadListener = onDownLoadListener;
 	}
 
 	static class ViewHolder
@@ -92,6 +137,22 @@ public class BookMarkAdapter extends BaseAdapter
 		TextView bookTitle;
 		TextView bookBody;
 		ButtonFlat bookOnline, bookDownload;
+	}
+
+	/**
+	 * ‘⁄œﬂ‘ƒ∂¡
+	 * 
+	 * @author  ¢‘¬√Ø
+	 *
+	 */
+	public interface OnLineReaderListener
+	{
+		public void onReader(BookBean bookBean);
+	}
+
+	public interface OnDownLoadListener
+	{
+		public void download(BookBean bookBean,final View v);
 	}
 
 }
