@@ -1,11 +1,18 @@
 package com.louji.bookshelf;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
+
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpUriRequest;
 
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -32,6 +39,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.louji.base.R;
+import com.louji.http.RangeFileAsyncHttpResponseHandler;
+import com.louji.http.ResponseHandlerInterface;
+import com.louji.httputil.Canstact;
+import com.louji.httputil.RangeResponse;
 import com.louji.slidingmenu.SettingsActivity;
 import com.louji.widgets.CustomTxtView;
 import com.louji.widgets.SearchTxtDlg;
@@ -67,6 +78,9 @@ public class ReadBookFragment extends Fragment implements OnClickListener
 	boolean hasBookMark = false;
 
 	Button BtnAutoScroll;
+	
+	private File file;
+	private long fileSize = -1;
 
 	Handler autoScrollHandle = new Handler()
 	{
@@ -187,9 +201,67 @@ public class ReadBookFragment extends Fragment implements OnClickListener
 
 		};
 		tvMain.setOnTouchListener(viewTouch);
+		
+		 try {
+	            // Temporary file to host the URL's downloaded contents.
+	            file = File.createTempFile("temp_", "_handled", getActivity().getCacheDir());
+	            RangeResponse rangeResponse = new RangeResponse(getActivity(),file,-1);
+	    		rangeResponse.setResponseHandlder(new RangeFileAsyncHttpResponseHandler(file)
+	    		{
 
+	    			@Override
+	    			public void onSuccess(int statusCode, Header[] headers, File file)
+	    			{
+	    				if(fileSize < 1){
+	    					boolean supportsRange = false;
+	    					for(Header header : headers){
+	    						
+	    						String headerName = header.getValue();
+	    						if (RangeResponse.CONTENT_LENGTH.equals(headerName))
+								{
+	    							fileSize = Long.parseLong(headerName);
+								}else if (RangeResponse.ACCEPT_RANGES.equals(header)){
+									supportsRange = true;
+								}
+	    						
+	    					}
+	    					
+	    					if (!supportsRange || fileSize < 1)
+							{
+								
+							}
+	    					
+	    					if(fileSize > 0){
+	    						Toast.makeText(getActivity(), ""+fileSize, Toast.LENGTH_LONG).show();
+	    					}
+	    				}
+
+	    			}
+
+	    			@Override
+	    			public void onFailure(int statusCode, Header[] headers,
+	    					Throwable throwable, File file)
+	    			{
+	    				// TODO Auto-generated method stub
+
+	    			}
+
+	    			@Override
+	    			public void updateRequestHeaders(HttpUriRequest uriRequest)
+	    			{
+	    				// TODO Auto-generated method stub
+	    				super.updateRequestHeaders(uriRequest);
+	    			}
+
+	    		} );
+	    		rangeResponse.onRun(Canstact.URL, "", "");
+	        } catch (IOException e) {
+	           
+	        }
+		
+		
 		// 读文件
-		try
+		/*try
 		{
 			Bundle b = getActivity().getIntent().getExtras();
 			String str = b.getString("FILE_PATH");
@@ -258,7 +330,7 @@ public class ReadBookFragment extends Fragment implements OnClickListener
 		{
 
 		}
-
+*/
 		// 设置按钮事件监听器
 		Button BtnPrePage = (Button) view.findViewById(R.id.viewtxt_pre_button);
 		BtnPrePage.setOnClickListener(this);

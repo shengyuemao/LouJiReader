@@ -1,18 +1,14 @@
 package com.louji.httputil;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.HttpUriRequest;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.louji.http.AsyncHttpClient;
-import com.louji.http.RangeFileAsyncHttpResponseHandler;
 import com.louji.http.RequestHandle;
 import com.louji.http.ResponseHandlerInterface;
 
@@ -26,36 +22,28 @@ public class RangeResponse extends GetNet
 	private File file;
 	private long fileSize = -1;
 
-	public RangeResponse(Context context)
+	private ResponseHandlerInterface responseHandlerInterface;
+
+	public RangeResponse(Context context, File file, long fileSize)
 	{
 		super(context);
-		// TODO Auto-generated constructor stub
+		this.file = file;
+		this.fileSize = fileSize;
 	}
 
-	public void onCreate()
+	public long getFileSize()
 	{
-		try
-		{
-			// Temporary file to host the URL's downloaded contents.
-			file = File.createTempFile("temp_", "_handled",
-					context.getCacheDir());
-		} catch (IOException e)
-		{
-			Log.e(LOG_TAG, "Cannot create temporary file", e);
-		}
+		return fileSize;
+	}
+
+	public void setFileSize(long fileSize)
+	{
+		this.fileSize = fileSize;
 	}
 
 	public void onDestroy()
 	{
-		try
-		{
-			// Temporary file to host the URL's downloaded contents.
-			file = File.createTempFile("temp_", "_handled",
-					context.getCacheDir());
-		} catch (IOException e)
-		{
-			Log.e(LOG_TAG, "Cannot create temporary file", e);
-		}
+
 	}
 
 	@Override
@@ -97,36 +85,17 @@ public class RangeResponse extends GetNet
 		return super.getRequestHandles();
 	}
 
+	public void setResponseHandlder(
+			ResponseHandlerInterface responseHandlerInterface)
+	{
+		this.responseHandlerInterface = responseHandlerInterface;
+	}
+
 	@Override
 	public ResponseHandlerInterface getResponseHandler()
 	{
 		// TODO Auto-generated method stub
-		return new RangeFileAsyncHttpResponseHandler(file)
-		{
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, File file)
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					Throwable throwable, File file)
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void updateRequestHeaders(HttpUriRequest uriRequest)
-			{
-				// TODO Auto-generated method stub
-				super.updateRequestHeaders(uriRequest);
-			}
-
-		};
+		return responseHandlerInterface;
 	}
 
 }

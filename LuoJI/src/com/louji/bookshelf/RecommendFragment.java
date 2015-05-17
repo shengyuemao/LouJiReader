@@ -12,16 +12,20 @@ import org.apache.http.HttpResponse;
 import com.gc.materialdesign.views.ButtonFlat;
 import com.louji.adapter.BookMarkAdapter;
 import com.louji.adapter.BookMarkAdapter.OnDownLoadListener;
+import com.louji.adapter.BookMarkAdapter.OnLineReaderListener;
 import com.louji.base.R;
 import com.louji.bean.BookBean;
 import com.louji.http.FileAsyncHttpResponseHandler;
 import com.louji.http.ResponseHandlerInterface;
+import com.louji.httputil.Canstact;
 import com.louji.httputil.FileNet;
+import com.louji.util.FileUtil;
 import com.yalantis.taurus.PullToRefreshView;
 import com.yalantis.taurus.PullToRefreshView.OnRefreshListener;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -66,7 +70,7 @@ public class RecommendFragment extends Fragment
 			BookBean bookBean = new BookBean();
 			bookBean.setBookTitle("海贼王");
 			bookBean.setBookInfo("《ONE PIECE》（海贼王、航海王）动画，于1999年10月20日在日本富士电视台开始播放，至今仍在播放中....");
-			bookBean.setBookUrl("http://dm.txt99.cc/2/4/%E7%A5%9E%E5%8C%BB%E8%B4%B5%E5%A5%B3%EF%BC%9A%E7%9B%9B%E5%AE%A0%E4%B8%83%E7%9A%87%E5%A6%83.txt");
+			bookBean.setBookUrl(Canstact.URL);
 			bookBeans.add(bookBean);
 		}
 
@@ -82,6 +86,22 @@ public class RecommendFragment extends Fragment
 				.findViewById(R.id.recommendfragment_list_view);
 		bookMarkAdapter = new BookMarkAdapter(getActivity(), bookBeans);
 		listView.setAdapter(bookMarkAdapter);
+		bookMarkAdapter.setOnLineReaderListener(new OnLineReaderListener()
+		{
+
+			@Override
+			public void onReader(BookBean bookBean)
+			{
+				// 跳转到阅读界面
+				Bundle bundle = new Bundle();
+
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ReadActivity.class);
+				intent.putExtras(bundle);
+				getActivity().startActivity(intent);
+
+			}
+		});
 		bookMarkAdapter.setOnDownLoadListener(new OnDownLoadListener()
 		{
 
@@ -97,6 +117,7 @@ public class RecommendFragment extends Fragment
 				{
 
 					String filePath;
+
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							File file)
@@ -105,24 +126,41 @@ public class RecommendFragment extends Fragment
 								Toast.LENGTH_LONG).show();
 
 						((ButtonFlat) v).setText("阅读");
-						filePath = getTargetFile().getAbsolutePath();
-
-						v.setOnClickListener(new OnClickListener()
+						try
 						{
+							byte[] bytes = FileUtil.readFileFromSdcard(getTargetFile());
+							Toast.makeText(getActivity(), "there", Toast.LENGTH_LONG).show();
+							File file1 = new File(Environment
+									.getRootDirectory(), "a.txt");
 
-							@Override
-							public void onClick(View v)
+							FileUtil.writeFiletoSdcard(file1.getAbsolutePath(),
+									bytes);
+
+							filePath = file1.getAbsolutePath();
+							Toast.makeText(getActivity(), filePath, Toast.LENGTH_LONG).show();
+							v.setOnClickListener(new OnClickListener()
 							{
-								// 跳转到阅读界面
-								Bundle bundle = new Bundle();
-								bundle.putString("filePath", filePath);
-								
-								Intent  intent  = new Intent();
-								intent.putExtras(bundle);
-								getActivity().startActivity(intent);
 
-							}
-						});
+								@Override
+								public void onClick(View v)
+								{
+									Bundle bundle = new Bundle();
+									bundle.putString("filePath", filePath);
+
+									Intent intent = new Intent();
+									intent.setClass(getActivity(),
+											ReadActivity.class);
+									intent.putExtras(bundle);
+									getActivity().startActivity(intent);
+
+								}
+							});
+
+						} catch (IOException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
 					}
 
