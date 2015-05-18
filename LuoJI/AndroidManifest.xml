@@ -42,8 +42,11 @@
             android:theme="@style/AccountsLight" />
         <activity
             android:name="com.louji.bookshelf.ReadActivity"
-            android:label="@string/title_activity_read" 
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:label="@string/title_activity_read" >
+        </activity>
+        <activity
+            android:name="com.louji.bookshelf.ReadBookActivity"
+            android:label="@string/title_activity_read_book" >
         </activity>
     </application>
 

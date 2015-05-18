@@ -15,5 +15,6 @@
     <string name="setting_txt_scr_brightness">屏幕亮度</string>
     <string name="setting_txt_setting_prev">这是一段测试文字，表示当前的用户设定。</string>
     <string name="title_activity_read">ReadActivity</string>
+    <string name="title_activity_read_book">ReadBookActivity</string>
 
 </resources>

@@ -1,13 +1,22 @@
 package com.louji.bookshelf;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
-import org.apache.http.HttpResponse;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.louji.adapter.BookMarkAdapter;
@@ -15,27 +24,12 @@ import com.louji.adapter.BookMarkAdapter.OnDownLoadListener;
 import com.louji.adapter.BookMarkAdapter.OnLineReaderListener;
 import com.louji.base.R;
 import com.louji.bean.BookBean;
-import com.louji.http.FileAsyncHttpResponseHandler;
-import com.louji.http.ResponseHandlerInterface;
+import com.louji.http.BinaryHttpResponseHandler;
+import com.louji.httputil.Binary;
 import com.louji.httputil.Canstact;
-import com.louji.httputil.FileNet;
 import com.louji.util.FileUtil;
 import com.yalantis.taurus.PullToRefreshView;
 import com.yalantis.taurus.PullToRefreshView.OnRefreshListener;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class RecommendFragment extends Fragment
 {
@@ -111,33 +105,52 @@ public class RecommendFragment extends Fragment
 				Toast.makeText(getActivity(), "start", Toast.LENGTH_LONG)
 						.show();
 
-				FileNet fileNet = new FileNet(getActivity());
-				fileNet.setResponseHandlerInterface(new FileAsyncHttpResponseHandler(
-						getActivity())
+				Binary binary = new Binary(getActivity());
+				binary.setResponseHandlerInterface(new BinaryHttpResponseHandler()
 				{
 
 					String filePath;
 
 					@Override
-					public void onSuccess(int statusCode, Header[] headers,
-							File file)
+					public void onStart()
 					{
-						Toast.makeText(getActivity(), "success",
-								Toast.LENGTH_LONG).show();
+						// TODO Auto-generated method stub
+						super.onStart();
+					}
 
-						((ButtonFlat) v).setText("ÔÄ¶Á");
+					@Override
+					public void onProgress(int bytesWritten, int totalSize)
+					{
+						// TODO Auto-generated method stub
+						super.onProgress(bytesWritten, totalSize);
+					}
+
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							byte[] binaryData)
+					{
 						try
 						{
-							byte[] bytes = FileUtil.readFileFromSdcard(getTargetFile());
-							Toast.makeText(getActivity(), "there", Toast.LENGTH_LONG).show();
-							File file1 = new File(Environment
-									.getRootDirectory(), "a.txt");
+							Toast.makeText(
+									getActivity(),
+									new String(binaryData, "gb2312")
+											.subSequence(100, 1000),
+									Toast.LENGTH_LONG).show();
+						} catch (UnsupportedEncodingException e1)
+						{
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 
-							FileUtil.writeFiletoSdcard(file1.getAbsolutePath(),
-									bytes);
+						try
+						{
 
-							filePath = file1.getAbsolutePath();
-							Toast.makeText(getActivity(), filePath, Toast.LENGTH_LONG).show();
+							filePath = FileUtil.writeFiletoSdcard(
+									getActivity(), binaryData);
+
+							Toast.makeText(getActivity(), filePath,
+									Toast.LENGTH_LONG).show();
+							((ButtonFlat) v).setText("ÔÄ¶Á");
 							v.setOnClickListener(new OnClickListener()
 							{
 
@@ -149,7 +162,7 @@ public class RecommendFragment extends Fragment
 
 									Intent intent = new Intent();
 									intent.setClass(getActivity(),
-											ReadActivity.class);
+											ReadBookActivity.class);
 									intent.putExtras(bundle);
 									getActivity().startActivity(intent);
 
@@ -158,7 +171,8 @@ public class RecommendFragment extends Fragment
 
 						} catch (IOException e)
 						{
-							// TODO Auto-generated catch block
+							Toast.makeText(getActivity(), "Ã»·¨Ð´Èë",
+									Toast.LENGTH_LONG).show();
 							e.printStackTrace();
 						}
 
@@ -166,14 +180,15 @@ public class RecommendFragment extends Fragment
 
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
-							Throwable throwable, File file)
+							byte[] binaryData, Throwable error)
 					{
 						Toast.makeText(getActivity(), "error",
 								Toast.LENGTH_LONG).show();
 
 					}
 				});
-				fileNet.onRun(bookBean.getBookUrl(), "", "");
+
+				binary.onRun(Canstact.URL, "", "");
 
 			}
 		});
