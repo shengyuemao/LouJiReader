@@ -87,6 +87,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 
 	private MaterialDrawerLayout layout;
 	private ActionBar actionBar;
+	@SuppressWarnings("rawtypes")
 	private MaterialActionBarDrawerToggle pulsante;
 	private ImageView statusBar;
 	private Toolbar toolbar;
@@ -105,9 +106,12 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 	private LinearLayout bottomSections;
 
 	// Lists
+	@SuppressWarnings("rawtypes")
 	private List<MaterialSection> sectionList;
+	@SuppressWarnings("rawtypes")
 	private List<MaterialSection> bottomSectionList;
 	private List<MaterialAccount> accountManager;
+	@SuppressWarnings("rawtypes")
 	private List<MaterialSection> accountSectionList;
 	private List<MaterialSubheader> subheaderList;
 	private List<Element> elementsList;
@@ -115,6 +119,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 	private List<String> childTitleStack;
 
 	// current pointers
+	@SuppressWarnings("rawtypes")
 	private MaterialSection currentSection;
 	private MaterialAccount currentAccount;
 
@@ -222,6 +227,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 	};
 	private View.OnClickListener accountSwitcherListener = new View.OnClickListener()
 	{
+		@SuppressWarnings("rawtypes")
 		@Override
 		public void onClick(View v)
 		{
@@ -385,6 +391,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 	};
 	private MaterialSectionListener accountSectionListener = new MaterialSectionListener()
 	{
+		@SuppressWarnings("rawtypes")
 		@Override
 		public void onClick(MaterialSection section)
 		{
@@ -431,7 +438,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 	private MaterialAccountListener accountListener;
 	private DrawerLayout.DrawerListener drawerListener;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
 	@Override
 	/**
 	 * Do not Override this method!!! <br>
@@ -752,6 +760,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
 		{
 
+			@SuppressWarnings(
+			{ "deprecation" })
 			@Override
 			public void onGlobalLayout()
 			{
@@ -1059,6 +1069,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		this.getSupportActionBar().setTitle(title);
 	}
 
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
 	@Override
 	public void onBackPressed()
 	{
@@ -1198,6 +1210,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 	 * @return the Section to restore that has Fragment as target (or
 	 *         currentSection for exit from activity)
 	 */
+	@SuppressWarnings("rawtypes")
 	protected MaterialSection backToSection(MaterialSection currentSection)
 	{
 		return currentSection;
@@ -1217,6 +1230,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 	 * @param section
 	 *            the section which is replaced
 	 */
+	@SuppressWarnings(
+	{ "rawtypes", "unchecked" })
 	public void setSection(MaterialSection section)
 	{
 		section.select();
@@ -1417,6 +1432,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private Element findElementBySection(MaterialSection section)
 	{
 		for (Element element : elementsList)
@@ -1590,6 +1606,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 			return false;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void setDrawerTouchable(boolean isTouchable)
 	{
 		drawerTouchLocked = !isTouchable;
@@ -1612,6 +1629,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void syncSectionsState(MaterialSection section)
 	{
 		currentSection = section;
@@ -1644,6 +1662,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return Color.HSVToColor(hsv);
 	}
 
+	@SuppressWarnings(
+	{ "rawtypes", "unchecked" })
 	@Override
 	public void onClick(MaterialSection section)
 	{
@@ -1796,6 +1816,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void changeToolbarColor(MaterialSection section)
 	{
 
@@ -1999,6 +2020,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		drawer.setBackgroundColor(color);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void addSection(MaterialSection section)
 	{
 		// section.setPosition(sectionList.size());
@@ -2014,6 +2036,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		elementsList.add(new Element(Element.TYPE_SECTION, section));
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void removeSection(MaterialSection section)
 	{
 		// remove section from section list and recalculate positions
@@ -2023,6 +2046,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		sections.removeView(section.getView());
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void addBottomSection(MaterialSection section)
 	{
 		// section.setPosition(BOTTOM_SECTION_START + bottomSectionList.size());
@@ -2033,6 +2057,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		elementsList.add(new Element(Element.TYPE_BOTTOM_SECTION, section));
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void addAccountSection(MaterialSection section)
 	{
 		// section.setPosition(accountSectionList.size());
@@ -2153,6 +2178,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 
 	// create sections
 
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
 	public MaterialSection newSection(String title, Drawable icon,
 			Fragment target)
 	{
@@ -2167,6 +2194,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings(
+	{ "rawtypes", "unchecked" })
 	public MaterialSection newSectionWithRealColor(String title, Drawable icon,
 			Fragment target)
 	{
@@ -2182,6 +2211,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSection(String title, Drawable icon, Intent target)
 	{
 		MaterialSection section = new MaterialSection<Fragment>(this,
@@ -2195,6 +2225,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSectionWithRealColor(String title, Drawable icon,
 			Intent target)
 	{
@@ -2210,6 +2241,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSection(String title, Drawable icon,
 			MaterialSectionListener target)
 	{
@@ -2224,6 +2256,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSectionWithRealColor(String title, Drawable icon,
 			MaterialSectionListener target)
 	{
@@ -2239,6 +2272,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings(
+	{ "rawtypes", "unchecked" })
 	public MaterialSection newSection(String title, Bitmap icon, Fragment target)
 	{
 		MaterialSection section = new MaterialSection<Fragment>(this,
@@ -2252,6 +2287,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings(
+	{ "rawtypes", "unchecked" })
 	public MaterialSection newSectionWithRealColor(String title, Bitmap icon,
 			Fragment target)
 	{
@@ -2267,6 +2304,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSection(String title, Bitmap icon, Intent target)
 	{
 		MaterialSection section = new MaterialSection<Fragment>(this,
@@ -2280,6 +2318,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSectionWithRealColor(String title, Bitmap icon,
 			Intent target)
 	{
@@ -2295,6 +2334,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSection(String title, Bitmap icon,
 			MaterialSectionListener target)
 	{
@@ -2309,6 +2349,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSectionWithRealColor(String title, Bitmap icon,
 			MaterialSectionListener target)
 	{
@@ -2324,11 +2365,13 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSection(String title, int icon, Fragment target)
 	{
 		return newSection(title, resources.getDrawable(icon), target);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSectionWithRealColor(String title, int icon,
 			Fragment target)
 	{
@@ -2336,11 +2379,13 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 				target);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSection(String title, int icon, Intent target)
 	{
 		return newSection(title, resources.getDrawable(icon), target);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSectionWithRealColor(String title, int icon,
 			Intent target)
 	{
@@ -2348,12 +2393,14 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 				target);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSection(String title, int icon,
 			MaterialSectionListener target)
 	{
 		return newSection(title, resources.getDrawable(icon), target);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public MaterialSection newSectionWithRealColor(String title, int icon,
 			MaterialSectionListener target)
 	{
@@ -2361,7 +2408,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 				target);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(
+	{ "unchecked", "rawtypes" })
 	public MaterialSection newSection(String title, Fragment target)
 	{
 		MaterialSection section = new MaterialSection<Fragment>(this,
@@ -2374,7 +2422,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(
+	{ "rawtypes" })
 	public MaterialSection newSection(String title, Intent target)
 	{
 		MaterialSection section = new MaterialSection<Fragment>(this,
@@ -2387,7 +2436,8 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 		return section;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(
+	{ "rawtypes" })
 	public MaterialSection newSection(String title,
 			MaterialSectionListener target)
 	{
@@ -2421,6 +2471,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 	 * 
 	 * @return the current section
 	 */
+	@SuppressWarnings("rawtypes")
 	public MaterialSection getCurrentSection()
 	{
 		return currentSection;
@@ -2453,6 +2504,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 	 *            is the title of the section
 	 * @return the section with title or null if the section is not founded
 	 */
+	@SuppressWarnings("rawtypes")
 	public MaterialSection getSectionByTitle(String title)
 	{
 
@@ -2480,6 +2532,7 @@ public abstract class MaterialNavigationDrawer<Fragment> extends
 	 * 
 	 * @return the list of sections setted
 	 */
+	@SuppressWarnings("rawtypes")
 	public List<MaterialSection> getSectionList()
 	{
 		List<MaterialSection> list = new LinkedList<>();

@@ -7,5 +7,6 @@ import it.neokree.materialnavigationdrawer.elements.MaterialSection;
  */
 public interface MaterialSectionListener {
 
-    public void onClick(MaterialSection section);
+    @SuppressWarnings("rawtypes")
+	public void onClick(MaterialSection section);
 }

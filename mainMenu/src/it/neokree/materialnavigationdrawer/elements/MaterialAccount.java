@@ -9,7 +9,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.View;
-
 import it.neokree.materialnavigationdrawer.elements.listeners.MaterialSectionListener;
 import it.neokree.materialnavigationdrawer.util.Utils;
 
@@ -32,7 +31,8 @@ public class MaterialAccount {
 
     private Resources resources;
     private OnAccountDataLoaded listener;
-    private MaterialSection sectionView;
+    @SuppressWarnings("rawtypes")
+	private MaterialSection sectionView;
 
     public static final int FIRST_ACCOUNT = 0;
     public static final int SECOND_ACCOUNT = 1;
@@ -160,7 +160,8 @@ public class MaterialAccount {
         return accountNumber;
     }
 
-    public View getSectionView(Context ctx, Typeface font, MaterialSectionListener listener, boolean rippleSupport,int position) {
+    @SuppressWarnings("rawtypes")
+	public View getSectionView(Context ctx, Typeface font, MaterialSectionListener listener, boolean rippleSupport,int position) {
         if(sectionView == null) {
             sectionView = new MaterialSection(ctx,MaterialSection.ICON_40DP,rippleSupport,MaterialSection.TARGET_LISTENER);
             sectionView.useRealColor();

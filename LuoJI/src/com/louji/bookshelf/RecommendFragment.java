@@ -1,12 +1,10 @@
 package com.louji.bookshelf;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.http.Header;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.gc.materialdesign.views.ButtonFlat;
 import com.louji.adapter.BookMarkAdapter;
 import com.louji.adapter.BookMarkAdapter.OnDownLoadListener;
@@ -37,6 +34,7 @@ import com.yalantis.taurus.PullToRefreshView.OnRefreshListener;
  * @author Ê¢ÔÂÃ¯
  *
  */
+@SuppressLint("InflateParams")
 public class RecommendFragment extends Fragment
 {
 

@@ -2,7 +2,6 @@ package com.louji.bookshelf;
 
 import java.io.IOException;
 
-import android.R.integer;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;

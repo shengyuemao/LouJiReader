@@ -1,5 +1,6 @@
 package com.gc.materialdesign.views;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,11 +19,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.gc.materialdesign.R;
 import com.gc.materialdesign.utils.Utils;
 import com.nineoldandroids.view.ViewHelper;
 
+@SuppressLint("ClickableViewAccessibility")
 public class Slider extends CustomView {
 
     private int backgroundColor = Color.parseColor("#4CAF50");
@@ -431,8 +432,8 @@ public class Slider extends CustomView {
             content.addView(numberIndicator);
 
             indicator.setLayoutParams(new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.FILL_PARENT,
-                    RelativeLayout.LayoutParams.FILL_PARENT));
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT));
         }
 
     }

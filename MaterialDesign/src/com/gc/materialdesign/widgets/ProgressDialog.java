@@ -1,5 +1,6 @@
 package com.gc.materialdesign.widgets;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -11,11 +12,10 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.gc.materialdesign.R;
-import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.views.ProgressBarCircularIndeterminate;
 
+@SuppressLint("ClickableViewAccessibility")
 public class ProgressDialog extends android.app.Dialog{
 	
 	Context context;
@@ -73,8 +73,7 @@ public class ProgressDialog extends android.app.Dialog{
 	
 	@Override
 	public void show() {
-		// TODO 自动生成的方法存根
-		super.show();
+		// TODO 鑷姩鐢熸垚鐨勬柟娉曞瓨鏍�		super.show();
 		// set dialog enter animations
 		view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_main_show_amination));
 		backView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_root_show_amin));

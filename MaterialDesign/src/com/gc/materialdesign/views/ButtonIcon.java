@@ -1,18 +1,17 @@
 package com.gc.materialdesign.views;
 
-import com.gc.materialdesign.utils.Utils;
-
-import android.R;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import com.gc.materialdesign.utils.Utils;
 
 public class ButtonIcon extends ButtonFloat {
 
+	@SuppressWarnings("deprecation")
 	public ButtonIcon(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		try {
@@ -24,6 +23,7 @@ public class ButtonIcon extends ButtonFloat {
 		rippleSize = Utils.dpToPx(5, getResources());
 	}
 	
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		boolean returnBool = super.onTouchEvent(event);

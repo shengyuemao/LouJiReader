@@ -6,7 +6,6 @@ import org.apache.http.HttpEntity;
 import android.content.Context;
 
 import com.louji.http.AsyncHttpClient;
-import com.louji.http.BinaryHttpResponseHandler;
 import com.louji.http.RequestHandle;
 import com.louji.http.ResponseHandlerInterface;
 

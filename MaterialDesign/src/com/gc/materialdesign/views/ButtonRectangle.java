@@ -53,7 +53,7 @@ public class ButtonRectangle extends Button {
 		}
 		
 		// Set Padding
-		String value = attrs.getAttributeValue(ANDROIDXML,"padding");
+		//String value = attrs.getAttributeValue(ANDROIDXML,"padding");
 //		if(value != null){
 //			float padding = Float.parseFloat(value.replace("dip", ""));
 //			paddingBottom = Utils.dpToPx(padding, getResources());

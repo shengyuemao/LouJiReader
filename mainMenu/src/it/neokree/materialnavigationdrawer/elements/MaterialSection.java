@@ -1,13 +1,14 @@
 package it.neokree.materialnavigationdrawer.elements;
 
-import android.animation.Animator;
+import it.neokree.materialnavigationdrawer.R;
+import it.neokree.materialnavigationdrawer.elements.listeners.MaterialSectionListener;
+import it.neokree.materialnavigationdrawer.util.Utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -20,16 +21,12 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 
-import it.neokree.materialnavigationdrawer.elements.listeners.MaterialSectionListener;
-import it.neokree.materialnavigationdrawer.R;
-import it.neokree.materialnavigationdrawer.util.Utils;
-
 /**
  * Navigation Drawer section with Material Design style
  *
  * Created by neokree on 08/11/14.
  */
-@SuppressWarnings("unused")
+@SuppressLint({ "InflateParams", "ClickableViewAccessibility" })
 public class MaterialSection<Fragment> implements View.OnTouchListener, View.OnClickListener {
 
     public static final int TARGET_FRAGMENT = 0;
@@ -74,7 +71,8 @@ public class MaterialSection<Fragment> implements View.OnTouchListener, View.OnC
     private Intent targetIntent;
     private MaterialSectionListener targetListener;
 
-    public MaterialSection(Context ctx, int iconType, boolean hasRippleSupport,  int target ) {
+	@SuppressLint("InflateParams")
+	public MaterialSection(Context ctx, int iconType, boolean hasRippleSupport,  int target ) {
         rippleSupport = hasRippleSupport;
 
         if(rippleAnimationSupport()) {
@@ -181,14 +179,16 @@ public class MaterialSection<Fragment> implements View.OnTouchListener, View.OnC
 
     // methods for customizations
 
-    public MaterialSection setSectionColor(int color) {
+    @SuppressWarnings("rawtypes")
+	public MaterialSection setSectionColor(int color) {
         hasSectionColor = true;
         sectionColor = color;
 
         return this;
     }
 
-    public MaterialSection setSectionColor(int color,int colorDark) {
+    @SuppressWarnings("rawtypes")
+	public MaterialSection setSectionColor(int color,int colorDark) {
         setSectionColor(color);
         hasColorDark = true;
         this.colorDark = colorDark;
@@ -201,7 +201,8 @@ public class MaterialSection<Fragment> implements View.OnTouchListener, View.OnC
      * @param notifications the number of notification active for this section
      * @return this section
      */
-    public MaterialSection setNotifications(int notifications) {
+    @SuppressWarnings("rawtypes")
+	public MaterialSection setNotifications(int notifications) {
         String textNotification;
 
         textNotification = String.valueOf(notifications);
@@ -219,12 +220,14 @@ public class MaterialSection<Fragment> implements View.OnTouchListener, View.OnC
         return this;
     }
 
-    public MaterialSection setNotificationsText(String text) {
+    @SuppressWarnings("rawtypes")
+	public MaterialSection setNotificationsText(String text) {
         this.notifications.setText(text);
         return this;
     }
 
-    public MaterialSection useRealColor() {
+    @SuppressWarnings("rawtypes")
+	public MaterialSection useRealColor() {
         realColor = true;
         if(icon != null) {
             Utils.setAlpha(icon,1f);

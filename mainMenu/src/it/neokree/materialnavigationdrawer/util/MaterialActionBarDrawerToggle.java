@@ -19,7 +19,8 @@ public class MaterialActionBarDrawerToggle<Fragment> extends ActionBarDrawerTogg
         request = false;
     }
 
-    public void addRequest(MaterialSection section) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public void addRequest(MaterialSection section) {
         request = true;
         requestedSection = section;
     }
@@ -33,7 +34,8 @@ public class MaterialActionBarDrawerToggle<Fragment> extends ActionBarDrawerTogg
         return request;
     }
 
-    public MaterialSection getRequestedSection() {
+    @SuppressWarnings("rawtypes")
+	public MaterialSection getRequestedSection() {
         return requestedSection;
     }
 

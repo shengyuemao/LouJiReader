@@ -1,12 +1,13 @@
 package com.gc.materialdesign.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 
 
+@SuppressLint("ClickableViewAccessibility")
 public class ScrollView extends android.widget.ScrollView {
 	
 	/*

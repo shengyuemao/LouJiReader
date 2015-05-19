@@ -3,7 +3,7 @@ package com.louji.widgets;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
@@ -19,8 +19,6 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.RelativeLayout;
-
-import com.louji.adapter.PageAdapter;
 import com.louji.adapter.ScanViewAdapter;
 
 /**
@@ -29,6 +27,7 @@ import com.louji.adapter.ScanViewAdapter;
  * @author chenjing
  * 
  */
+@SuppressLint("HandlerLeak")
 public class ScanView extends RelativeLayout
 {
 	public static final String TAG = "ScanView";
