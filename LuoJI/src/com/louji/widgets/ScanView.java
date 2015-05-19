@@ -78,7 +78,16 @@ public class ScanView extends RelativeLayout
 		prePage = adapter.getView();
 		addView(prePage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
-		adapter.addContent(prePage, index - 1);
+		try
+		{
+			adapter.prePage();
+			adapter.addContent(prePage, index - 1);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		currPage = adapter.getView();
 		addView(currPage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
@@ -88,7 +97,16 @@ public class ScanView extends RelativeLayout
 		nextPage = adapter.getView();
 		addView(nextPage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
-		adapter.addContent(nextPage, index + 1);
+		try
+		{
+			adapter.nextPage();
+			adapter.addContent(nextPage, index + 1);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 	}
 
