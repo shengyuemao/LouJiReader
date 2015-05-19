@@ -21,7 +21,7 @@ import com.louji.bookshelf.RecommendFragment;
  * Created by neokree on 24/11/14.
  */
 @SuppressLint("InflateParams")
-public class FragmentIndex extends Fragment implements MaterialTabListener
+public class BookListFragment extends Fragment implements MaterialTabListener
 {
 
 	private MaterialTabHost tabHost;

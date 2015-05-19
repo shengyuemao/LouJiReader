@@ -7,6 +7,11 @@ import android.view.WindowManager;
 
 import com.louji.base.R;
 
+/**
+ * 在线阅读
+ * @author Administrator
+ *
+ */
 public class ReadActivity extends Activity
 {
 
@@ -18,7 +23,7 @@ public class ReadActivity extends Activity
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_readbook);
 	}
 
 }

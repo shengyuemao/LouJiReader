@@ -9,6 +9,10 @@ public abstract class PageAdapter
 	 */
 	public abstract View getView();
 
+	/**
+	 * 获取列表数目
+	 * @return
+	 */
 	public abstract int getCount();
 
 	/**

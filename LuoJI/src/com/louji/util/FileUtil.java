@@ -4,15 +4,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.Buffer;
 
 import android.content.Context;
 import android.os.Environment;
 
+/**
+ * 文件工具类
+ * 
+ * @author 盛月茂
+ *
+ */
 public class FileUtil
 {
-
+	/**
+	 * SD卡是否有用
+	 * 
+	 * @return
+	 */
 	public static boolean hasSdcard()
 	{
 		if (Environment.getExternalStorageState().equals(
@@ -25,6 +33,13 @@ public class FileUtil
 		}
 	}
 
+	/**
+	 * 从SD卡中读取数据
+	 * 
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
 	public static byte[] readFileFromSdcard(File file) throws IOException
 	{
 		FileInputStream fileInputStream = new FileInputStream(file);
@@ -35,6 +50,14 @@ public class FileUtil
 		return buffer;
 	}
 
+	/**
+	 * 按长度从文件中读取数据
+	 * 
+	 * @param file
+	 * @param length
+	 * @return
+	 * @throws IOException
+	 */
 	public static String readFileFromSdcard(File file, int length)
 			throws IOException
 	{
@@ -46,6 +69,15 @@ public class FileUtil
 		return string;
 	}
 
+	/**
+	 * 按长度从文件中读取数据
+	 * 
+	 * @param file
+	 * @param length
+	 * @param count
+	 * @return
+	 * @throws IOException
+	 */
 	public static String readFileFromSdcard(File file, int length, int count)
 			throws IOException
 	{
@@ -57,6 +89,14 @@ public class FileUtil
 		return string;
 	}
 
+	/**
+	 * 写文件到应用缓存文件夹中
+	 * 
+	 * @param context
+	 * @param buffer
+	 * @return
+	 * @throws IOException
+	 */
 	public static String writeFiletoSdcard(Context context, byte[] buffer)
 			throws IOException
 	{
@@ -69,6 +109,12 @@ public class FileUtil
 		return file.getAbsolutePath();
 	}
 
+	/**
+	 * 创建缓存文件
+	 * 
+	 * @param context
+	 * @return
+	 */
 	public static File getRandomCacheFile(Context context)
 	{
 		File dir = context.getCacheDir();

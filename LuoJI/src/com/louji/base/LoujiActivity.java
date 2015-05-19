@@ -7,21 +7,28 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.louji.slidingmenu.MenuActivity;
 
-public class LoujiActivity extends ActionBarActivity {
+/**
+ * 欢迎页面
+ * 
+ * @author 盛月茂
+ *
+ */
+public class LoujiActivity extends ActionBarActivity
+{
 
 	@SuppressLint("NewApi")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
-		
+
 		Intent intent;
 		intent = new Intent();
 		intent.setClass(this, MenuActivity.class);
 		startActivity(intent);
-		
-		finish();//结束当前activity
-		
-		
+
+		finish();// 结束当前activity
+
 	}
 
 }

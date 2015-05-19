@@ -1,5 +1,11 @@
 package com.louji.bean;
 
+/**
+ * 书籍模型类
+ * 
+ * @author 盛月茂
+ *
+ */
 public class BookBean
 {
 

@@ -31,6 +31,12 @@ import com.louji.util.FileUtil;
 import com.yalantis.taurus.PullToRefreshView;
 import com.yalantis.taurus.PullToRefreshView.OnRefreshListener;
 
+/**
+ * 推荐页
+ * 
+ * @author 盛月茂
+ *
+ */
 public class RecommendFragment extends Fragment
 {
 
@@ -47,7 +53,7 @@ public class RecommendFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.recommendfragment, null);
+		View view = inflater.inflate(R.layout.fragment_recommend, null);
 
 		initData();
 
@@ -56,7 +62,10 @@ public class RecommendFragment extends Fragment
 		return view;
 	}
 
-	public void initData()
+	/**
+	 * 初始化数据
+	 */
+	private void initData()
 	{
 		bookBeans = new ArrayList<BookBean>(); // 初始化bookBeans;
 		for (int i = 0; i < 20; i++)
@@ -80,119 +89,40 @@ public class RecommendFragment extends Fragment
 				.findViewById(R.id.recommendfragment_list_view);
 		bookMarkAdapter = new BookMarkAdapter(getActivity(), bookBeans);
 		listView.setAdapter(bookMarkAdapter);
-		bookMarkAdapter.setOnLineReaderListener(new OnLineReaderListener()
+		bookMarkAdapter.setOnLineReaderListener(new OnLineReader());
+		bookMarkAdapter.setOnDownLoadListener(new OnDownLoad());
+
+	}
+
+	private class OnDownLoad implements OnDownLoadListener
+	{
+
+		@Override
+		public void download(BookBean bookBean, final View v)
 		{
 
-			@Override
-			public void onReader(BookBean bookBean)
-			{
-				// 跳转到阅读界面
-				Bundle bundle = new Bundle();
+			Binary binary = new Binary(getActivity());
+			binary.setResponseHandlerInterface(new BinaryHttp(v));
 
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ReadActivity.class);
-				intent.putExtras(bundle);
-				getActivity().startActivity(intent);
+			binary.onRun(Canstact.URL, "", "");
 
-			}
-		});
-		bookMarkAdapter.setOnDownLoadListener(new OnDownLoadListener()
+		}
+	}
+
+	private class OnLineReader implements OnLineReaderListener
+	{
+		@Override
+		public void onReader(BookBean bookBean)
 		{
+			// 跳转到阅读界面
+			Bundle bundle = new Bundle();
 
-			@Override
-			public void download(BookBean bookBean, final View v)
-			{
-				Toast.makeText(getActivity(), "start", Toast.LENGTH_LONG)
-						.show();
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), ReadActivity.class);
+			intent.putExtras(bundle);
+			getActivity().startActivity(intent);
 
-				Binary binary = new Binary(getActivity());
-				binary.setResponseHandlerInterface(new BinaryHttpResponseHandler()
-				{
-
-					String filePath;
-
-					@Override
-					public void onStart()
-					{
-						// TODO Auto-generated method stub
-						super.onStart();
-					}
-
-					@Override
-					public void onProgress(int bytesWritten, int totalSize)
-					{
-						// TODO Auto-generated method stub
-						super.onProgress(bytesWritten, totalSize);
-					}
-
-					@Override
-					public void onSuccess(int statusCode, Header[] headers,
-							byte[] binaryData)
-					{
-						try
-						{
-							Toast.makeText(
-									getActivity(),
-									new String(binaryData, "gb2312")
-											.subSequence(100, 1000),
-									Toast.LENGTH_LONG).show();
-						} catch (UnsupportedEncodingException e1)
-						{
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-
-						try
-						{
-
-							filePath = FileUtil.writeFiletoSdcard(
-									getActivity(), binaryData);
-
-							Toast.makeText(getActivity(), filePath,
-									Toast.LENGTH_LONG).show();
-							((ButtonFlat) v).setText("阅读");
-							v.setOnClickListener(new OnClickListener()
-							{
-
-								@Override
-								public void onClick(View v)
-								{
-									Bundle bundle = new Bundle();
-									bundle.putString("filePath", filePath);
-
-									Intent intent = new Intent();
-									intent.setClass(getActivity(),
-											ReadBookActivity.class);
-									intent.putExtras(bundle);
-									getActivity().startActivity(intent);
-
-								}
-							});
-
-						} catch (IOException e)
-						{
-							Toast.makeText(getActivity(), "没法写入",
-									Toast.LENGTH_LONG).show();
-							e.printStackTrace();
-						}
-
-					}
-
-					@Override
-					public void onFailure(int statusCode, Header[] headers,
-							byte[] binaryData, Throwable error)
-					{
-						Toast.makeText(getActivity(), "error",
-								Toast.LENGTH_LONG).show();
-
-					}
-				});
-
-				binary.onRun(Canstact.URL, "", "");
-
-			}
-		});
-
+		}
 	}
 
 	private class RefreshListener implements OnRefreshListener
@@ -211,6 +141,77 @@ public class RecommendFragment extends Fragment
 
 				}
 			}, REFRESH_DELAY);
+
+		}
+	}
+
+	private class BinaryHttp extends BinaryHttpResponseHandler
+	{
+		private class OnChangeListener implements OnClickListener
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Bundle bundle = new Bundle();
+				bundle.putString("filePath", filePath);
+
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ReadBookActivity.class);
+				intent.putExtras(bundle);
+				getActivity().startActivity(intent);
+
+			}
+		}
+
+		private final View v;
+		String filePath;
+
+		private BinaryHttp(View v)
+		{
+			this.v = v;
+		}
+
+		@Override
+		public void onStart()
+		{
+
+			super.onStart();
+		}
+
+		@Override
+		public void onProgress(int bytesWritten, int totalSize)
+		{
+			// TODO Auto-generated method stub
+			super.onProgress(bytesWritten, totalSize);
+		}
+
+		@Override
+		public void onSuccess(int statusCode, Header[] headers,
+				byte[] binaryData)
+		{
+
+			try
+			{
+
+				filePath = FileUtil
+						.writeFiletoSdcard(getActivity(), binaryData);
+
+				v.setOnClickListener(new OnChangeListener());
+				((ButtonFlat) v).setText("阅读");
+
+			} catch (IOException e)
+			{
+				Toast.makeText(getActivity(), "没法写入", Toast.LENGTH_LONG).show();
+				e.printStackTrace();
+			}
+
+		}
+
+		@Override
+		public void onFailure(int statusCode, Header[] headers,
+				byte[] binaryData, Throwable error)
+		{
+			Toast.makeText(getActivity(), "error", Toast.LENGTH_LONG).show();
 
 		}
 	}

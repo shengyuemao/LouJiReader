@@ -49,13 +49,17 @@ public class ScanViewAdapter extends PageAdapter
 
 	private Paint mPaint;
 
-	public ScanViewAdapter(Context context,
-			String filePath, int w, int h)
+	public ScanViewAdapter(Context context, String filePath, int w, int h)
 	{
 		this.context = context;
 		this.filePath = filePath;
 		am = context.getAssets();
 
+		initScreen(w, h);// 初始化屏幕显示
+	}
+
+	private void initScreen(int w, int h)
+	{
 		mWidth = w;
 		mHeight = h;
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -174,6 +178,11 @@ public class ScanViewAdapter extends PageAdapter
 		return buf;
 	}
 
+	/**
+	 * 上一页数据获取
+	 * 
+	 * @return
+	 */
 	protected Vector<String> pageDown()
 	{
 		String strParagraph = "";
@@ -229,6 +238,9 @@ public class ScanViewAdapter extends PageAdapter
 		return lines;
 	}
 
+	/**
+	 * 下一页数据获取
+	 */
 	protected void pageUp()
 	{
 		if (m_mbBufBegin < 0)
@@ -278,6 +290,11 @@ public class ScanViewAdapter extends PageAdapter
 		return;
 	}
 
+	/**
+	 * 上一页显示
+	 * 
+	 * @throws IOException
+	 */
 	public void prePage() throws IOException
 	{
 		if (m_mbBufBegin <= 0)
@@ -285,11 +302,16 @@ public class ScanViewAdapter extends PageAdapter
 			m_mbBufBegin = 0;
 			return;
 		} else
-		m_lines.clear();
+			m_lines.clear();
 		pageUp();
 		m_lines = pageDown();
 	}
 
+	/**
+	 * 下一页显示
+	 * 
+	 * @throws IOException
+	 */
 	public void nextPage() throws IOException
 	{
 		if (m_mbBufEnd >= m_mbBufLen)
@@ -301,6 +323,9 @@ public class ScanViewAdapter extends PageAdapter
 		m_lines = pageDown();
 	}
 
+	/**
+	 * 添加内容
+	 */
 	public void addContent(View view, int position)
 	{
 		TextView content = (TextView) view.findViewById(R.id.content);
@@ -320,6 +345,12 @@ public class ScanViewAdapter extends PageAdapter
 
 	}
 
+	/**
+	 * 打开书籍文件 调用时必须执行
+	 * 
+	 * @param strFilePath 文件目录
+	 * @throws IOException
+	 */
 	@SuppressWarnings("resource")
 	public void openbook(String strFilePath) throws IOException
 	{
@@ -337,7 +368,7 @@ public class ScanViewAdapter extends PageAdapter
 
 	public View getView()
 	{
-		View view = LayoutInflater.from(context).inflate(R.layout.page_layout,
+		View view = LayoutInflater.from(context).inflate(R.layout.layout_page,
 				null);
 		return view;
 	}

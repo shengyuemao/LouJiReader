@@ -1,5 +1,3 @@
-// 熊猫设置的Actvity
-// Leo @ 2010/10/05
 
 package com.louji.slidingmenu;
 
@@ -22,6 +20,12 @@ import android.widget.TextView;
 
 import com.louji.base.R;
 
+
+/**
+ * 设置页面
+ * @author 盛月茂
+ *
+ */
 public class SettingsActivity extends Activity {
 	final int MENU_SAVE_AND_RETURN = 1;
 	
@@ -53,7 +57,7 @@ public class SettingsActivity extends Activity {
 	@Override  
     public void onCreate(Bundle savedInstanceState) { 
         super.onCreate(savedInstanceState);  
-        setContentView(R.layout.settingsactivity);  
+        setContentView(R.layout.activity_settings);  
         
         tvSettingPrev = (TextView) findViewById(R.id.setting_textview_setting_prev);
         sbFontSize = (SeekBar) findViewById(R.id.setting_seekbar_font_size);

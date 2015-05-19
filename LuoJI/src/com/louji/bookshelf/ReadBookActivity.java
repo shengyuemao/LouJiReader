@@ -1,28 +1,30 @@
 package com.louji.bookshelf;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
+import android.R.integer;
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.louji.adapter.ScanViewAdapter;
 import com.louji.base.R;
 import com.louji.widgets.ScanView;
 
+/**
+ * 下载后阅读
+ * 
+ * @author 盛月茂
+ *
+ */
 public class ReadBookActivity extends Activity
 {
 	ScanView scanview;
 	ScanViewAdapter adapter;
+	int screenWidth ;
+	int screenHeight;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -31,22 +33,25 @@ public class ReadBookActivity extends Activity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_main);
-		
+		setContentView(R.layout.activity_readbook);
 
-		DisplayMetrics dm = new DisplayMetrics();
-		dm = this.getResources().getDisplayMetrics();
-		int screenWidth = dm.widthPixels;
-		int screenHeight = dm.heightPixels;
+		//获取屏幕尺寸
+		getScreenSize();
 
-		//路径
+		//打开书籍
+		openbook();
+
+	}
+
+	private void openbook()
+	{
 		String filePath = getIntent().getExtras().getString("filePath");
 
-		scanview = (ScanView) findViewById(R.id.scanview);		
+		scanview = (ScanView) findViewById(R.id.scanview);
 
 		try
 		{
-			adapter = new ScanViewAdapter(this,  filePath, screenWidth,
+			adapter = new ScanViewAdapter(this, filePath, screenWidth,
 					screenHeight);
 			adapter.openbook(filePath);
 			scanview.setAdapter(adapter);
@@ -55,8 +60,14 @@ public class ReadBookActivity extends Activity
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
+	private void getScreenSize()
+	{
+		DisplayMetrics dm = new DisplayMetrics();
+		dm = this.getResources().getDisplayMetrics();
+		screenWidth = dm.widthPixels;
+		screenHeight = dm.heightPixels;
+	}
 
 }
