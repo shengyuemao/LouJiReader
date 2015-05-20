@@ -10,14 +10,11 @@ import java.util.Vector;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.louji.base.R;
 import com.louji.util.Util;
@@ -100,8 +97,11 @@ public class ScanViewAdapter extends PageAdapter
 		{
 			buf[j] = m_mbBuf.get(i + j);
 		}
+		paragraph =buf.length;
 		return buf;
 	}
+	
+	int paragraph ;
 
 	/**
 	 * 读取下一页数据
@@ -130,6 +130,7 @@ public class ScanViewAdapter extends PageAdapter
 		{
 			buf[i] = m_mbBuf.get(nFromPos + i);
 		}
+		paragraph =buf.length;
 		return buf;
 	}
 
@@ -324,7 +325,7 @@ public class ScanViewAdapter extends PageAdapter
 
 	public int getCount()
 	{
-		return m_mbBufLen;
+		return (int)Math.floor(m_mbBufLen/paragraph) ;
 	}
 
 	public View getView()
