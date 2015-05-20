@@ -17,15 +17,15 @@ import android.graphics.Paint.Align;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.louji.base.R;
+import com.louji.util.Util;
 
 @SuppressLint("InflateParams")
 public class ScanViewAdapter extends PageAdapter
 {
 	Context context;
-	AssetManager am;
-	String filePath;
 	private MappedByteBuffer m_mbBuf = null;
 
 	private int m_mbBufLen = 0;
@@ -37,10 +37,9 @@ public class ScanViewAdapter extends PageAdapter
 
 	private Vector<String> m_lines = new Vector<String>();
 
-	private int m_fontSize = 18;
-	private int m_textColor = Color.DKGRAY;
+	private int m_fontSize = 20;
 	private int marginWidth = 4;
-	private int marginHeight = 16;
+	private int marginHeight = 40;
 
 	private int mLineCount;
 
@@ -52,8 +51,6 @@ public class ScanViewAdapter extends PageAdapter
 	public ScanViewAdapter(Context context, String filePath, int w, int h)
 	{
 		this.context = context;
-		this.filePath = filePath;
-		am = context.getAssets();
 
 		initScreen(w, h);// 初始化屏幕显示
 	}
@@ -65,60 +62,35 @@ public class ScanViewAdapter extends PageAdapter
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setTextAlign(Align.LEFT);
 		mPaint.setTextSize(m_fontSize);
-		mPaint.setColor(m_textColor);
 		mVisibleWidth = mWidth - marginWidth * 2;
 		mVisibleHeight = mHeight - marginHeight * 2;
-		mLineCount = (int) (mVisibleHeight / m_fontSize);
+		mLineCount = (int) (mVisibleHeight / Util.dip2px(context, m_fontSize));
 	}
 
+	/**
+	 * 读取上一页数据
+	 * 
+	 * @param nFromPos
+	 * @return
+	 */
 	protected byte[] readParagraphBack(int nFromPos)
 	{
 		int nEnd = nFromPos;
 		int i;
-		byte b0, b1;
-		if (encode.equals("UTF-16LE"))
-		{
-			i = nEnd - 2;
-			while (i > 0)
-			{
-				b0 = m_mbBuf.get(i);
-				b1 = m_mbBuf.get(i + 1);
-				if (b0 == 0x0a && b1 == 0x00 && i != nEnd - 2)
-				{
-					i += 2;
-					break;
-				}
-				i--;
-			}
+		byte b0;
 
-		} else if (encode.equals("UTF-16BE"))
+		i = nEnd - 1;
+		while (i > 0)
 		{
-			i = nEnd - 2;
-			while (i > 0)
+			b0 = m_mbBuf.get(i);
+			if (b0 == 0x0a && i != nEnd - 1)
 			{
-				b0 = m_mbBuf.get(i);
-				b1 = m_mbBuf.get(i + 1);
-				if (b0 == 0x00 && b1 == 0x0a && i != nEnd - 2)
-				{
-					i += 2;
-					break;
-				}
-				i--;
+				i++;
+				break;
 			}
-		} else
-		{
-			i = nEnd - 1;
-			while (i > 0)
-			{
-				b0 = m_mbBuf.get(i);
-				if (b0 == 0x0a && i != nEnd - 1)
-				{
-					i++;
-					break;
-				}
-				i--;
-			}
+			i--;
 		}
+
 		if (i < 0)
 			i = 0;
 		int nParaSize = nEnd - i;
@@ -131,44 +103,27 @@ public class ScanViewAdapter extends PageAdapter
 		return buf;
 	}
 
+	/**
+	 * 读取下一页数据
+	 * 
+	 * @param nFromPos
+	 * @return
+	 */
 	protected byte[] readParagraphForward(int nFromPos)
 	{
 		int nStart = nFromPos;
 		int i = nStart;
-		byte b0, b1;
-		if (encode.equals("UTF-16LE"))
+		byte b0;
+
+		while (i < m_mbBufLen)
 		{
-			while (i < m_mbBufLen - 1)
+			b0 = m_mbBuf.get(i++);
+			if (b0 == 0x0a)
 			{
-				b0 = m_mbBuf.get(i++);
-				b1 = m_mbBuf.get(i++);
-				if (b0 == 0x0a && b1 == 0x00)
-				{
-					break;
-				}
-			}
-		} else if (encode.equals("UTF-16BE"))
-		{
-			while (i < m_mbBufLen - 1)
-			{
-				b0 = m_mbBuf.get(i++);
-				b1 = m_mbBuf.get(i++);
-				if (b0 == 0x00 && b1 == 0x0a)
-				{
-					break;
-				}
-			}
-		} else
-		{
-			while (i < m_mbBufLen)
-			{
-				b0 = m_mbBuf.get(i++);
-				if (b0 == 0x0a)
-				{
-					break;
-				}
+				break;
 			}
 		}
+
 		int nParaSize = i - nStart;
 		byte[] buf = new byte[nParaSize];
 		for (i = 0; i < nParaSize; i++)
@@ -179,7 +134,7 @@ public class ScanViewAdapter extends PageAdapter
 	}
 
 	/**
-	 * 上一页数据获取
+	 * 下一页数据获取
 	 * 
 	 * @return
 	 */
@@ -224,6 +179,7 @@ public class ScanViewAdapter extends PageAdapter
 					break;
 				}
 			}
+			
 			if (strParagraph.length() != 0)
 			{
 				try
@@ -239,7 +195,7 @@ public class ScanViewAdapter extends PageAdapter
 	}
 
 	/**
-	 * 下一页数据获取
+	 * 上一页数据获取
 	 */
 	protected void pageUp()
 	{
@@ -275,18 +231,21 @@ public class ScanViewAdapter extends PageAdapter
 			}
 			lines.addAll(0, paraLines);
 		}
+
+		int begin = m_mbBufBegin;
 		while (lines.size() > mLineCount)
 		{
 			try
 			{
 				m_mbBufBegin += lines.get(0).getBytes(encode).length;
+				begin += lines.get(0).getBytes(encode).length;
 				lines.remove(0);
 			} catch (UnsupportedEncodingException e)
 			{
 				e.printStackTrace();
 			}
 		}
-		m_mbBufEnd = m_mbBufBegin;
+		m_mbBufEnd = begin;
 		return;
 	}
 
@@ -302,7 +261,7 @@ public class ScanViewAdapter extends PageAdapter
 			m_mbBufBegin = 0;
 			return;
 		} else
-			m_lines.clear();
+		m_lines.clear();
 		pageUp();
 		m_lines = pageDown();
 	}
@@ -329,6 +288,7 @@ public class ScanViewAdapter extends PageAdapter
 	public void addContent(View view, int position)
 	{
 		TextView content = (TextView) view.findViewById(R.id.content);
+		content.setTextSize(18);
 		if ((position - 1) < 0 || (position - 1) >= getCount())
 			return;
 		if (m_lines.size() == 0)
@@ -348,7 +308,8 @@ public class ScanViewAdapter extends PageAdapter
 	/**
 	 * 打开书籍文件 调用时必须执行
 	 * 
-	 * @param strFilePath 文件目录
+	 * @param strFilePath
+	 *            文件目录
 	 * @throws IOException
 	 */
 	@SuppressWarnings("resource")

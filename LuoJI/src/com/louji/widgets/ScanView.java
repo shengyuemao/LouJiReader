@@ -3,6 +3,7 @@ package com.louji.widgets;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -19,6 +20,8 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import com.louji.adapter.ScanViewAdapter;
 
 /**
@@ -78,7 +81,7 @@ public class ScanView extends RelativeLayout
 		prePage = adapter.getView();
 		addView(prePage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
-		try
+		/*try
 		{
 			adapter.prePage();
 			adapter.addContent(prePage, index - 1);
@@ -86,7 +89,7 @@ public class ScanView extends RelativeLayout
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 
 		currPage = adapter.getView();
@@ -166,11 +169,15 @@ public class ScanView extends RelativeLayout
 		removeView(nextPage);
 		addView(nextPage, -1, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
+		Toast.makeText(getContext(), "index = "+index, Toast.LENGTH_LONG).show();
 		try
 		{
-			adapter.prePage();
+			for (int i = 0; i < 3; i++)//
+			{
+				adapter.prePage();
+			}
 			// 从适配器获取前一页内容
-			adapter.addContent(nextPage, index - 1);
+			adapter.addContent(nextPage, index +1);
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -193,11 +200,12 @@ public class ScanView extends RelativeLayout
 		removeView(prePage);
 		addView(prePage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
+		Toast.makeText(getContext(), "index = "+index, Toast.LENGTH_LONG).show();
 		try
 		{
 			adapter.nextPage();
 			// 从适配器获取后一页内容
-			adapter.addContent(prePage, index + 1);
+			adapter.addContent(prePage, index-1);
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block

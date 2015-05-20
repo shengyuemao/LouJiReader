@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -22,7 +21,7 @@ public class ReadBookActivity extends Activity
 {
 	ScanView scanview;
 	ScanViewAdapter adapter;
-	int screenWidth ;
+	int screenWidth;
 	int screenHeight;
 
 	@Override
@@ -34,10 +33,10 @@ public class ReadBookActivity extends Activity
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_readbook);
 
-		//获取屏幕尺寸
+		// 获取屏幕尺寸
 		getScreenSize();
 
-		//打开书籍
+		// 打开书籍
 		openbook();
 
 	}
@@ -61,12 +60,11 @@ public class ReadBookActivity extends Activity
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getScreenSize()
 	{
-		DisplayMetrics dm = new DisplayMetrics();
-		dm = this.getResources().getDisplayMetrics();
-		screenWidth = dm.widthPixels;
-		screenHeight = dm.heightPixels;
+		screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+		screenHeight = getWindowManager().getDefaultDisplay().getHeight();
 	}
 
 }

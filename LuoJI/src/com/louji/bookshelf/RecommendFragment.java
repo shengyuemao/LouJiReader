@@ -117,6 +117,7 @@ public class RecommendFragment extends Fragment
 
 			Intent intent = new Intent();
 			intent.setClass(getActivity(), ReadActivity.class);
+			bundle.putString("filePath", bookBean.getBookUrl());
 			intent.putExtras(bundle);
 			getActivity().startActivity(intent);
 
@@ -145,21 +146,7 @@ public class RecommendFragment extends Fragment
 
 	private class BinaryHttp extends BinaryHttpResponseHandler
 	{
-		private class OnChangeListener implements OnClickListener
-		{
-			@Override
-			public void onClick(View v)
-			{
-				Bundle bundle = new Bundle();
-				bundle.putString("filePath", filePath);
-
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), ReadBookActivity.class);
-				intent.putExtras(bundle);
-				getActivity().startActivity(intent);
-
-			}
-		}
+		
 
 		private final View v;
 		String filePath;
@@ -212,6 +199,30 @@ public class RecommendFragment extends Fragment
 			Toast.makeText(getActivity(), "error", Toast.LENGTH_LONG).show();
 
 		}
+		
+		/**
+		 * ÔÄ¶Á°´Å¥ÊÂ¼þ
+		 * @author Administrator
+		 *
+		 */
+		private class OnChangeListener implements OnClickListener
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Bundle bundle = new Bundle();
+				bundle.putString("filePath", filePath);
+
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ReadBookActivity.class);
+				intent.putExtras(bundle);
+				getActivity().startActivity(intent);
+
+			}
+		}
 	}
+	
+	
+	
 
 }

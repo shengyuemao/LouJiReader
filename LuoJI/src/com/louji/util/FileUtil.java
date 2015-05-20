@@ -125,4 +125,16 @@ public class FileUtil
 		return new File(dir, "sample-" + System.currentTimeMillis() + ".txt");
 	}
 
+	/**
+	 * 删除文件
+	 * @param filePath
+	 * @return
+	 */
+	public static boolean deleteRandonCacheFile(String filePath)
+	{
+		File dir = new File(filePath);
+		return dir.delete();
+
+	}
+
 }
