@@ -50,6 +50,7 @@ public class ScanViewAdapter extends PageAdapter
 		this.context = context;
 
 		initScreen(w, h);// 初始化屏幕显示
+		
 	}
 
 	private void initScreen(int w, int h)
@@ -101,7 +102,7 @@ public class ScanViewAdapter extends PageAdapter
 		return buf;
 	}
 	
-	int paragraph ;
+	int paragraph = 1;
 
 	/**
 	 * 读取下一页数据
@@ -325,7 +326,7 @@ public class ScanViewAdapter extends PageAdapter
 
 	public int getCount()
 	{
-		return (int)Math.floor(m_mbBufLen/paragraph) ;
+		return (int)Math.floor(m_mbBufLen/paragraph);
 	}
 
 	public View getView()

@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.views.ProgressBarIndeterminate;
+import com.gc.materialdesign.views.Slider;
 import com.louji.base.R;
 import com.louji.bean.BookBean;
 
@@ -88,6 +90,7 @@ public class BookMarkAdapter extends BaseAdapter
 					.findViewById(R.id.recommendfragment_item_book_online);
 			viewHolder.bookDownload = (ButtonFlat) convertView
 					.findViewById(R.id.recommendfragment_item_book_download);
+			viewHolder.progress = (Slider)convertView.findViewById(R.id.recommendfragment_item_book_slider);
 			convertView.setTag(viewHolder);
 		} else
 		{
@@ -157,6 +160,7 @@ public class BookMarkAdapter extends BaseAdapter
 		TextView bookTitle;
 		TextView bookBody;
 		ButtonFlat bookOnline, bookDownload;
+		Slider progress;
 	}
 
 	/**

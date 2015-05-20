@@ -169,7 +169,6 @@ public class ScanView extends RelativeLayout
 		removeView(nextPage);
 		addView(nextPage, -1, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
-		Toast.makeText(getContext(), "index = "+index, Toast.LENGTH_LONG).show();
 		try
 		{
 			for (int i = 0; i < 3; i++)//
@@ -200,7 +199,6 @@ public class ScanView extends RelativeLayout
 		removeView(prePage);
 		addView(prePage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
-		Toast.makeText(getContext(), "index = "+index, Toast.LENGTH_LONG).show();
 		try
 		{
 			adapter.nextPage();

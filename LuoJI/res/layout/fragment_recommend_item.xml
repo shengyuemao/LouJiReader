@@ -54,6 +54,16 @@
                 android:background="#afafaf"
                 android:text="@string/recommendfragment_item_book_download" />
         </LinearLayout>
+
+        <com.gc.materialdesign.views.Slider
+            android:id="@+id/recommendfragment_item_book_slider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:background="#1E88E5"
+            materialdesign:max="50"
+            materialdesign:min="0"
+            materialdesign:showNumberIndicator="true" />
     </LinearLayout>
 
 </LinearLayout>

@@ -3,7 +3,9 @@ package com.louji.bookshelf;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.Header;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +17,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.views.Slider;
 import com.louji.adapter.BookMarkAdapter;
 import com.louji.adapter.BookMarkAdapter.OnDownLoadListener;
 import com.louji.adapter.BookMarkAdapter.OnLineReaderListener;
@@ -149,11 +153,14 @@ public class RecommendFragment extends Fragment
 		
 
 		private final View v;
+		private Slider slider;
 		String filePath;
 
 		private BinaryHttp(View v)
 		{
 			this.v = v;
+			this.slider =(Slider) v.getRootView().findViewById(R.id.recommendfragment_item_book_slider);
+			//
 		}
 
 		@Override
@@ -166,8 +173,11 @@ public class RecommendFragment extends Fragment
 		@Override
 		public void onProgress(int bytesWritten, int totalSize)
 		{
-			// TODO Auto-generated method stub
+			this.slider.setVisibility(View.VISIBLE);
+			slider.setMax(totalSize);
+			slider.setValue(bytesWritten);
 			super.onProgress(bytesWritten, totalSize);
+			
 		}
 
 		@Override
@@ -183,6 +193,7 @@ public class RecommendFragment extends Fragment
 
 				v.setOnClickListener(new OnChangeListener());
 				((ButtonFlat) v).setText("ÔÄ¶Á");
+				slider.setVisibility(View.GONE);
 
 			} catch (IOException e)
 			{
@@ -196,7 +207,7 @@ public class RecommendFragment extends Fragment
 		public void onFailure(int statusCode, Header[] headers,
 				byte[] binaryData, Throwable error)
 		{
-			Toast.makeText(getActivity(), "error", Toast.LENGTH_LONG).show();
+			slider.setVisibility(View.GONE);
 
 		}
 		
