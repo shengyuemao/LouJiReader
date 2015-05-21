@@ -290,7 +290,7 @@ public class ScanViewAdapter extends PageAdapter
 	public void addContent(View view, int position)
 	{
 		TextView content = (TextView) view.findViewById(R.id.content);
-		content.setTextSize(18);
+		content.setTextSize(17);
 		if ((position - 1) < 0 || (position - 1) >= getCount())
 			return;
 		if (m_lines.size() == 0)

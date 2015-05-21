@@ -81,20 +81,20 @@ public class ScanView extends RelativeLayout
 		prePage = adapter.getView();
 		addView(prePage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
-		/*try
+		try
 		{
 			adapter.prePage();
 			adapter.addContent(prePage, index - 1);
-		} catch (IOException e)
+		} catch (IOException e1)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
+			e1.printStackTrace();
+		}
 
 		currPage = adapter.getView();
 		addView(currPage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
+
 		adapter.addContent(currPage, index);
 
 		nextPage = adapter.getView();
@@ -109,7 +109,6 @@ public class ScanView extends RelativeLayout
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 
@@ -169,14 +168,33 @@ public class ScanView extends RelativeLayout
 		removeView(nextPage);
 		addView(nextPage, -1, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
+		Toast.makeText(getContext(), "index = " + index, Toast.LENGTH_SHORT)
+				.show();
 		try
 		{
-			for (int i = 0; i < 3; i++)//
+			for (int i = 0; i < 3; i++)
 			{
 				adapter.prePage();
 			}
 			// 从适配器获取前一页内容
-			adapter.addContent(nextPage, index +1);
+			adapter.addContent(nextPage, index + 1);
+			
+
+			
+			if (index > 1)
+			{
+				for (int i = 0; i < 2; i++)
+				{
+					adapter.nextPage();
+				}
+			}else{
+				for (int i = 0; i < 1; i++)
+				{
+					adapter.nextPage();
+				}
+			}
+			
+
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -199,11 +217,13 @@ public class ScanView extends RelativeLayout
 		removeView(prePage);
 		addView(prePage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
+		Toast.makeText(getContext(), "index = " + index, Toast.LENGTH_SHORT)
+				.show();
 		try
 		{
 			adapter.nextPage();
 			// 从适配器获取后一页内容
-			adapter.addContent(prePage, index-1);
+			adapter.addContent(prePage, index - 1);
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -272,6 +292,7 @@ public class ScanView extends RelativeLayout
 	{
 		super(context, attrs, defStyle);
 		init();
+		
 	}
 
 	public ScanView(Context context)
