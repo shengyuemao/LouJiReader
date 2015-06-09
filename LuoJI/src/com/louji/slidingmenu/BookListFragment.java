@@ -1,5 +1,8 @@
 package com.louji.slidingmenu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
@@ -14,6 +17,8 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
 import com.louji.base.R;
 import com.louji.bookshelf.RecommendFragment;
 
@@ -46,8 +51,13 @@ public class BookListFragment extends Fragment implements MaterialTabListener
 		pager = (ViewPager) view.findViewById(R.id.fragment_bookshelf_pager);
 
 		// init view pager
+		fragments = new ArrayList<Fragment>();
+		fragments.add(new RecommendFragment());
+		fragments.add(new ClassifyFragment());
+		fragments.add(new ReadedFragment());
+
 		adapter = new ViewPagerAdapter(getActivity()
-				.getSupportFragmentManager());
+				.getSupportFragmentManager(), fragments);
 		pager.setAdapter(adapter);
 		pager.setOnPageChangeListener(MOnPageChangeListener());
 
@@ -107,32 +117,37 @@ public class BookListFragment extends Fragment implements MaterialTabListener
 
 	}
 
+	List<Fragment> fragments;
+
 	/**
 	 * 顶部布局
+	 * 
 	 * @author Administrator
 	 *
 	 */
 	private class ViewPagerAdapter extends FragmentStatePagerAdapter
 	{
+		List<Fragment> fragments;
 
-		public ViewPagerAdapter(FragmentManager fm)
+		public ViewPagerAdapter(FragmentManager fm, List<Fragment> fragments)
 		{
 			super(fm);
 			// TODO Auto-generated constructor stub
+			this.fragments = fragments;
 		}
 
 		@Override
 		public Fragment getItem(int num)
 		{
 			// TODO Auto-generated method stub
-			return new RecommendFragment();
+			return fragments.get(num );
 		}
 
 		@Override
 		public int getCount()
 		{
 			// TODO Auto-generated method stub
-			return 3;
+			return fragments.size();
 		}
 
 		@Override
@@ -148,7 +163,7 @@ public class BookListFragment extends Fragment implements MaterialTabListener
 				return "已阅";
 			default:
 				return "推荐";
-			
+
 			}
 		}
 

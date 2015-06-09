@@ -81,6 +81,10 @@ public class RecommendFragment extends Fragment
 
 	}
 
+	/**
+	 * 初始化控件
+	 * @param view
+	 */
 	public void initView(View view)
 	{
 		pullToRefreshView = (PullToRefreshView) view
@@ -96,6 +100,13 @@ public class RecommendFragment extends Fragment
 
 	}
 
+	
+	/**
+	 * 定义下载事件
+	 * @author 盛月茂
+	 * @since 2015年6月9号
+	 *
+	 */
 	private class OnDownLoad implements OnDownLoadListener
 	{
 
@@ -111,6 +122,11 @@ public class RecommendFragment extends Fragment
 		}
 	}
 
+	/**
+	 * 在线阅读事件
+	 * @author 盛月茂
+	 *
+	 */
 	private class OnLineReader implements OnLineReaderListener
 	{
 		@Override
@@ -128,6 +144,11 @@ public class RecommendFragment extends Fragment
 		}
 	}
 
+	/**
+	 * 刷新事件
+	 * @author 盛月茂
+	 *
+	 */
 	private class RefreshListener implements OnRefreshListener
 	{
 		@Override
@@ -148,6 +169,11 @@ public class RecommendFragment extends Fragment
 		}
 	}
 
+	/**
+	 * 字节流下载事件
+	 * @author Administrator
+	 *
+	 */
 	private class BinaryHttp extends BinaryHttpResponseHandler
 	{
 		

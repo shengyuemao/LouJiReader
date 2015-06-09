@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.louji.widgets.ReboundScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#efefef"
+        android:orientation="vertical" >
+
+        <!-- 顶部分类 -->
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff"
+            android:paddingBottom="10dp" >
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <com.louji.widgets.RoundImageView
+                        android:id="@+id/fragment_classify_image_gril"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_classify_grils" />
+
+                    <TextView
+                        android:id="@+id/fragment_classify_title_gril"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/classifyfragment_classify_grils"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <com.louji.widgets.RoundImageView
+                        android:id="@+id/fragment_classify_image_suspense"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_classify_grils" />
+
+                    <TextView
+                        android:id="@+id/fragment_classify_title_suspense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/classifyfragment_classify_suspense"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <com.louji.widgets.RoundImageView
+                        android:id="@+id/fragment_classify_image_panic"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_classify_grils" />
+
+                    <TextView
+                        android:id="@+id/fragment_classify_title_panic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/classifyfragment_classify_panic"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <com.louji.widgets.RoundImageView
+                        android:id="@+id/fragment_classify_image_cartoon"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_classify_grils" />
+
+                    <TextView
+                        android:id="@+id/fragment_classify_title_cartoon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/classifyfragment_classify_cartoon"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <com.louji.widgets.RoundImageView
+                        android:id="@+id/fragment_classify_image_fantasy"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_classify_grils" />
+
+                    <TextView
+                        android:id="@+id/fragment_classify_title_fantasy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/classifyfragment_classify_fantasy"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <com.louji.widgets.RoundImageView
+                        android:id="@+id/fragment_classify_image_swordsman"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_classify_grils" />
+
+                    <TextView
+                        android:id="@+id/fragment_classify_title_swordsman"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/classifyfragment_classify_swordsman"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <com.louji.widgets.RoundImageView
+                        android:id="@+id/fragment_classify_image_youth"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_classify_grils" />
+
+                    <TextView
+                        android:id="@+id/fragment_classify_title_youth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/classifyfragment_classify_youth"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <com.louji.widgets.RoundImageView
+                        android:id="@+id/fragment_classify_image_emotion"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_classify_grils" />
+
+                    <TextView
+                        android:id="@+id/fragment_classify_title_emotion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/classifyfragment_classify_emotion"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+        <!-- // -->
+
+
+        <!-- 主题图片 -->
+
+        <com.louji.widgets.SlideShowView
+            android:id="@+id/fragment_classify_slideshowView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp" />
+        <!-- // -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_gravity="center_vertical" >
+
+            <com.louji.widgets.RoundImageView
+                android:id="@+id/fragment_special_image_editor"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_classify_grils" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/fragment_special_image_editor"
+                android:layout_toRightOf="@+id/fragment_special_image_editor"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/fragment_special_title_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="#404040"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/fragment_special_info_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="#afafaf"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/ic_next" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</com.louji.widgets.ReboundScrollView>

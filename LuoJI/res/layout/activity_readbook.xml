@@ -9,15 +9,4 @@
         android:layout_height="match_parent"
         android:gravity="center" />
 
-    <com.gc.materialdesign.views.Slider
-        android:id="@+id/slider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#1E88E5"
-        android:visibility="gone"
-        materialdesign:max="50"
-        materialdesign:min="0"
-        materialdesign:showNumberIndicator="true" />
-
 </RelativeLayout>

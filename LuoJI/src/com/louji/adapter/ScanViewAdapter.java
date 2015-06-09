@@ -8,6 +8,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.Vector;
 
+import android.R.integer;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
@@ -327,6 +328,10 @@ public class ScanViewAdapter extends PageAdapter
 	public int getCount()
 	{
 		return (int)Math.floor(m_mbBufLen/paragraph);
+	}
+	
+	public int getMaxValue(){
+		return (int)m_mbBufLen;
 	}
 
 	public View getView()

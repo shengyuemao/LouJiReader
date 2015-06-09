@@ -17,4 +17,14 @@
     <string name="title_activity_read">ReadActivity</string>
     <string name="title_activity_read_book">ReadBookActivity</string>
 
+    <!-- 盛月茂定义的字段 -->
+    <string name="classifyfragment_classify_grils">女生</string>
+    <string name="classifyfragment_classify_suspense">悬念</string>
+    <string name="classifyfragment_classify_panic">惊悚</string>
+    <string name="classifyfragment_classify_cartoon">漫画</string>
+    <string name="classifyfragment_classify_fantasy">玄幻</string>
+    <string name="classifyfragment_classify_swordsman">武侠</string>
+    <string name="classifyfragment_classify_youth">青春</string>
+    <string name="classifyfragment_classify_emotion">情感</string>
+
 </resources>

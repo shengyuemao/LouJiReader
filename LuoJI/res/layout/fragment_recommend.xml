@@ -7,19 +7,19 @@
     <com.yalantis.taurus.PullToRefreshView
         android:id="@+id/recommendfragment_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_height="match_parent" >
 
         <ListView
             android:id="@+id/recommendfragment_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="#efefef"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#dfdfdf"
+            android:divider="#dfdfdf"
             android:dividerHeight="20dp"
-            android:fadingEdge="none" 
-            android:background="#ffffff"
-            android:scrollbars="none"/>
+            android:fadingEdge="none"
+            android:scrollbars="none" />
     </com.yalantis.taurus.PullToRefreshView>
 
 </LinearLayout>
