@@ -2,12 +2,12 @@
 <com.louji.widgets.ReboundScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#cfcfcf" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#efefef"
         android:orientation="vertical" >
 
         <!-- 顶部分类 -->
@@ -15,7 +15,7 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="#ffffff"
             android:paddingBottom="10dp" >
@@ -235,10 +235,15 @@
             android:layout_height="180dp" />
         <!-- // -->
 
+
+        <!-- 小编精选 -->
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="72dp"
-            android:layout_gravity="center_vertical" >
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff" >
 
             <com.louji.widgets.RoundImageView
                 android:id="@+id/fragment_special_image_editor"
@@ -268,6 +273,169 @@
 
                 <TextView
                     android:id="@+id/fragment_special_info_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="#afafaf"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/ic_next" />
+        </RelativeLayout>
+
+        <!-- 情感专区 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff" >
+
+            <com.louji.widgets.RoundImageView
+                android:id="@+id/fragment_emotion_image_editor"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_classify_grils" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/fragment_emotion_image_editor"
+                android:layout_toRightOf="@+id/fragment_emotion_image_editor"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/fragment_emotion_title_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="#404040"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/fragment_emotion_info_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="#afafaf"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/ic_next" />
+        </RelativeLayout>
+
+        <!-- 推理社团 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff" >
+
+            <com.louji.widgets.RoundImageView
+                android:id="@+id/fragment_ratiocinate_image_editor"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_classify_grils" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/fragment_ratiocinate_image_editor"
+                android:layout_toRightOf="@+id/fragment_ratiocinate_image_editor"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/fragment_ratiocinate_title_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="#404040"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/fragment_ratiocinate_info_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="#afafaf"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/ic_next" />
+        </RelativeLayout>
+
+        <!-- 精品应用 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff" >
+
+            <com.louji.widgets.RoundImageView
+                android:id="@+id/fragment_boutique_image_editor"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_classify_grils" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/fragment_boutique_image_editor"
+                android:layout_toRightOf="@+id/fragment_boutique_image_editor"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/fragment_boutique_title_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="#404040"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/fragment_boutique_info_editor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hello_world"

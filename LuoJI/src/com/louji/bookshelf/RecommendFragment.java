@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -20,14 +21,19 @@ import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.views.Slider;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.louji.adapter.BookMarkAdapter;
 import com.louji.adapter.BookMarkAdapter.OnDownLoadListener;
 import com.louji.adapter.BookMarkAdapter.OnLineReaderListener;
 import com.louji.base.R;
 import com.louji.bean.BookBean;
 import com.louji.http.BinaryHttpResponseHandler;
+import com.louji.http.JsonHttpResponseHandler;
 import com.louji.httputil.Binary;
 import com.louji.httputil.Canstact;
+import com.louji.httputil.GetNet;
+import com.louji.jsonbean.BookJsonBean;
 import com.louji.util.FileUtil;
 import com.yalantis.taurus.PullToRefreshView;
 import com.yalantis.taurus.PullToRefreshView.OnRefreshListener;
@@ -70,19 +76,64 @@ public class RecommendFragment extends Fragment
 	private void initData()
 	{
 		bookBeans = new ArrayList<BookBean>(); // 初始化bookBeans;
-		for (int i = 0; i < 20; i++)
+
+		GetNet getNet = new GetNet(getActivity());
+
+		getNet.setResponseHandlerInterface(new JsonHttpResponseHandler("utf-8")
 		{
-			BookBean bookBean = new BookBean();
-			bookBean.setBookTitle("海贼王");
-			bookBean.setBookInfo("《ONE PIECE》（海贼王、航海王）动画，于1999年10月20日在日本富士电视台开始播放，至今仍在播放中....");
-			bookBean.setBookUrl(Canstact.URL);
-			bookBeans.add(bookBean);
-		}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response)
+			{
+				// TODO Auto-generated method stub
+				super.onSuccess(statusCode, headers, response);
+				Toast.makeText(getActivity(), response.toString(),
+						Toast.LENGTH_LONG).show();
+
+				Gson gson = new Gson();
+				List<BookJsonBean> bookJsonBeans = gson.fromJson(
+						response.toString(),
+						new TypeToken<List<BookJsonBean>>()
+						{
+						}.getType());
+				for (int i = 0; i < bookJsonBeans.size(); i++)
+				{
+					BookBean bookBean = new BookBean();
+					bookBean.setBookUrl(bookJsonBeans.get(i).getBookurl());
+					bookBean.setBookTitle(bookJsonBeans.get(i).getBooktitle());
+					bookBean.setBookInfo(bookJsonBeans.get(i).getBookcontent());
+					bookBean.setImageUrl(bookJsonBeans.get(i).getBookimage());
+					bookBeans.add(bookBean);
+				}
+
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse)
+			{
+
+				for (int i = 0; i < 20; i++)
+				{
+					BookBean bookBean = new BookBean();
+					bookBean.setBookTitle("海贼王");
+					bookBean.setBookInfo("《ONE PIECE》（海贼王、航海王）动画，于1999年10月20日在日本富士电视台开始播放，至今仍在播放中....");
+					bookBean.setBookUrl(Canstact.URL);
+					bookBeans.add(bookBean);
+				}
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+
+		});
+
+		getNet.onRun(Canstact.URL, "", "");
 
 	}
 
 	/**
 	 * 初始化控件
+	 * 
 	 * @param view
 	 */
 	public void initView(View view)
@@ -100,9 +151,9 @@ public class RecommendFragment extends Fragment
 
 	}
 
-	
 	/**
 	 * 定义下载事件
+	 * 
 	 * @author 盛月茂
 	 * @since 2015年6月9号
 	 *
@@ -124,6 +175,7 @@ public class RecommendFragment extends Fragment
 
 	/**
 	 * 在线阅读事件
+	 * 
 	 * @author 盛月茂
 	 *
 	 */
@@ -146,6 +198,7 @@ public class RecommendFragment extends Fragment
 
 	/**
 	 * 刷新事件
+	 * 
 	 * @author 盛月茂
 	 *
 	 */
@@ -171,12 +224,12 @@ public class RecommendFragment extends Fragment
 
 	/**
 	 * 字节流下载事件
+	 * 
 	 * @author Administrator
 	 *
 	 */
 	private class BinaryHttp extends BinaryHttpResponseHandler
 	{
-		
 
 		private final View v;
 		private Slider slider;
@@ -185,7 +238,8 @@ public class RecommendFragment extends Fragment
 		private BinaryHttp(View v)
 		{
 			this.v = v;
-			this.slider =(Slider) v.getRootView().findViewById(R.id.recommendfragment_item_book_slider);
+			this.slider = (Slider) v.getRootView().findViewById(
+					R.id.recommendfragment_item_book_slider);
 			//
 		}
 
@@ -203,7 +257,7 @@ public class RecommendFragment extends Fragment
 			slider.setMax(totalSize);
 			slider.setValue(bytesWritten);
 			super.onProgress(bytesWritten, totalSize);
-			
+
 		}
 
 		@Override
@@ -236,9 +290,10 @@ public class RecommendFragment extends Fragment
 			slider.setVisibility(View.GONE);
 
 		}
-		
+
 		/**
 		 * 阅读按钮事件
+		 * 
 		 * @author Administrator
 		 *
 		 */
@@ -258,8 +313,5 @@ public class RecommendFragment extends Fragment
 			}
 		}
 	}
-	
-	
-	
 
 }

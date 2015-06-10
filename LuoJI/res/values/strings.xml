@@ -26,5 +26,6 @@
     <string name="classifyfragment_classify_swordsman">武侠</string>
     <string name="classifyfragment_classify_youth">青春</string>
     <string name="classifyfragment_classify_emotion">情感</string>
+    <string name="readedfragment_readed_add_tag">添加标签</string>
 
 </resources>
