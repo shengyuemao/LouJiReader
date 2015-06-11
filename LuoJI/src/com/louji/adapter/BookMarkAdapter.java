@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFlat;
-import com.gc.materialdesign.views.ProgressBarIndeterminate;
 import com.gc.materialdesign.views.Slider;
 import com.louji.base.R;
 import com.louji.bean.BookBean;
+import com.louji.util.OnlineImageLoader;
 
 /**
  * 书籍列表适配器 用于适配书籍列表
@@ -90,13 +90,17 @@ public class BookMarkAdapter extends BaseAdapter
 					.findViewById(R.id.recommendfragment_item_book_online);
 			viewHolder.bookDownload = (ButtonFlat) convertView
 					.findViewById(R.id.recommendfragment_item_book_download);
-			viewHolder.progress = (Slider)convertView.findViewById(R.id.recommendfragment_item_book_slider);
+			viewHolder.progress = (Slider) convertView
+					.findViewById(R.id.recommendfragment_item_book_slider);
+
 			convertView.setTag(viewHolder);
 		} else
 		{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
+		OnlineImageLoader.displayImage(getItem(position).getImageUrl(),
+				viewHolder.imageView, R.drawable.bookpricture);
 		viewHolder.bookTitle.setText(getItem(position).getBookTitle());
 
 		viewHolder.bookBody.setText(getItem(position).getBookInfo());
@@ -114,6 +118,7 @@ public class BookMarkAdapter extends BaseAdapter
 
 			}
 		});
+		
 
 		viewHolder.bookDownload.setOnClickListener(new OnClickListener()
 		{
@@ -182,7 +187,7 @@ public class BookMarkAdapter extends BaseAdapter
 	 */
 	public interface OnDownLoadListener
 	{
-		public void download(BookBean bookBean, final View v);
+		public void download(BookBean bookBean,  View v);
 	}
 
 }

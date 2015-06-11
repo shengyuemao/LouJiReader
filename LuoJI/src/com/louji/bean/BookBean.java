@@ -16,6 +16,17 @@ public class BookBean
 	private String bookInfo;
 	private String bookUrl;
 	private String bookFilePath;
+	private int  isrecommend;
+
+	public int getIsrecommend()
+	{
+		return isrecommend;
+	}
+
+	public void setIsrecommend(int isrecommend)
+	{
+		this.isrecommend = isrecommend;
+	}
 
 	public BookBean()
 	{

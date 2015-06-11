@@ -1,4 +1,4 @@
-package com.louji.slidingmenu;
+package com.louji.bookshelf;
 
 import com.louji.base.R;
 

@@ -42,11 +42,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AccountsLight" />
         <activity
-            android:name="com.louji.bookshelf.ReadActivity"
+            android:name="com.louji.bookread.ReadActivity"
             android:label="@string/title_activity_read" >
         </activity>
         <activity
-            android:name="com.louji.bookshelf.ReadBookActivity"
+            android:name="com.louji.bookread.ReadBookActivity"
             android:label="@string/title_activity_read_book" >
         </activity>
     </application>

@@ -1,4 +1,4 @@
-package com.louji.slidingmenu;
+package com.louji.bookshelf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.louji.base.R;
-import com.louji.bookshelf.RecommendFragment;
 
 /**
  * Created by neokree on 24/11/14.

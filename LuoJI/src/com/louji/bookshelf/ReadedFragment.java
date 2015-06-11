@@ -1,17 +1,27 @@
-package com.louji.slidingmenu;
+package com.louji.bookshelf;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.louji.adapter.ReadedGridAdapter;
 import com.louji.base.R;
 import com.louji.bean.ReadedBookGridBean;
+import com.louji.bookread.ReadBookActivity;
+import com.louji.db.Database;
+import com.louji.db.DatabaseFactory;
+import com.louji.dbbean.BookBean;
+
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 @SuppressLint("InflateParams")
@@ -38,16 +48,42 @@ public class ReadedFragment extends Fragment
 	{
 		bookself = (GridView) view.findViewById(R.id.fragment_readed_bookself);
 		readedBookGridBeans = new ArrayList<ReadedBookGridBean>();
+		bookself.setOnItemClickListener(new OnItemClickListener()
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id)
+			{
+				ReadedBookGridBean readedBookGridBean = readedBookGridBeans
+						.get(position);
+				Bundle bundle = new Bundle();
+				bundle.putString("filePath", readedBookGridBean.getFilePath());
+
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ReadBookActivity.class);
+				intent.putExtras(bundle);
+				getActivity().startActivity(intent);
+			}
+
+		});
 	}
 
 	private void initData()
 	{
 
-		for (int i = 0; i < 9; i++)
+		List<BookBean> bookBeans = DatabaseFactory.bookData(getActivity())
+				.selectMore();// 全部下载数据
+
+		for (int i = 0; i < bookBeans.size(); i++)
 		{
+
+			Toast.makeText(getActivity(), bookBeans.get(i).getBooktitle(),
+					Toast.LENGTH_LONG).show();
+
 			ReadedBookGridBean readedBookGridBean = new ReadedBookGridBean();
-			readedBookGridBean
-					.setImageUrl("http://maomo-public.stor.sinaapp.com/ic_index_hotel.png");
+			readedBookGridBean.setImageUrl(bookBeans.get(i).getBookimage());
+			readedBookGridBean.setFilePath(bookBeans.get(i).getBooklocalpath());
 			readedBookGridBeans.add(readedBookGridBean);
 		}
 
