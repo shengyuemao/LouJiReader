@@ -43,7 +43,7 @@ public class BookDatabaseBuilder extends DatabaseBuilder<BookBean>
 		values.put("bookurl", t.getBookurl());
 		values.put("isrecommend", t.getIsrecommend());
 		values.put("booklocalpath", t.getBooklocalpath());
-		return null;
+		return values;
 	}
 
 }
