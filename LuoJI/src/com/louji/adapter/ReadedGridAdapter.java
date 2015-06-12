@@ -64,7 +64,7 @@ public class ReadedGridAdapter extends BaseAdapter
 		}
 		
 		OnlineImageLoader.displayImage(getItem(position).getImageUrl()
-				, holder.imageView);
+				, holder.imageView,R.drawable.ic_classify_grils);
 		
 		return convertView;
 	}
