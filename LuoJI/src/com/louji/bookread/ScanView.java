@@ -1,4 +1,4 @@
-package com.louji.widgets;
+package com.louji.bookread;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -21,8 +21,6 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-import com.louji.adapter.ScanViewAdapter;
 
 /**
  * 更多详解见博客http://blog.csdn.net/zhongkejingwang/article/details/38728119

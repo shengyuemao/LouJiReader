@@ -1,4 +1,4 @@
-package com.louji.adapter;
+package com.louji.bookread;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.louji.adapter.PageAdapter;
 import com.louji.base.R;
 import com.louji.util.Util;
 

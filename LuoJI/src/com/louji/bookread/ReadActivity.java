@@ -10,12 +10,10 @@ import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.louji.adapter.ScanViewAdapter;
 import com.louji.base.R;
 import com.louji.http.BinaryHttpResponseHandler;
 import com.louji.httputil.Binary;
 import com.louji.util.FileUtil;
-import com.louji.widgets.ScanView;
 
 /**
  * 在线阅读

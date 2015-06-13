@@ -10,9 +10,7 @@ import android.view.View.OnLongClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.louji.adapter.ScanViewAdapter;
 import com.louji.base.R;
-import com.louji.widgets.ScanView;
 
 /**
  * обть╨Стд╤а

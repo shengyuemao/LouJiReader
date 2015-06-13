@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.louji.widgets.ScanView
+    <com.louji.bookread.ScanView
         android:id="@+id/scanview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
