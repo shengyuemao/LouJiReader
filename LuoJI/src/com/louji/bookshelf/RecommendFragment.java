@@ -38,6 +38,7 @@ import com.louji.http.JsonHttpResponseHandler;
 import com.louji.httputil.Binary;
 import com.louji.httputil.HttpUtil;
 import com.louji.jsonbean.BookJsonBean;
+import com.louji.readtwo.Read;
 import com.louji.util.FileUtil;
 import com.louji.util.Logger;
 import com.yalantis.taurus.PullToRefreshView;
@@ -273,7 +274,7 @@ public class RecommendFragment extends Fragment
 						bundle.putString("filePath", filePath);
 
 						Intent intent = new Intent();
-						intent.setClass(getActivity(), ReadBookActivity.class);
+						intent.setClass(getActivity(), Read.class);
 						intent.putExtras(bundle);
 						getActivity().startActivity(intent);
 

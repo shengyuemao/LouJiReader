@@ -28,4 +28,9 @@
     <string name="classifyfragment_classify_emotion">情感</string>
     <string name="readedfragment_readed_add_tag">添加标签</string>
 
+    <!-- bookpop.xml -->
+    <string name="bookpop_size">字体</string>
+    <string name="bookpop_light">亮度</string>
+    <string name="bookpop_card">书签</string>
+    <string name="bookpop_send">跳转</string>
 </resources>
