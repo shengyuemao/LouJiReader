@@ -33,9 +33,9 @@
         android:smallScreens="false" />
 
     <application
-        android:name="com.louji.base.LoujiBaseApplication"
+        android:name=".LoujiBaseApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_icon"
         android:label="@string/app_name" >
         <activity
             android:name=".LoujiActivity"
@@ -68,6 +68,10 @@
             android:name="com.louji.readtwo.Read"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".InfoSelfActivity"
+            android:label="@string/title_activity_info_self" >
         </activity>
     </application>
 

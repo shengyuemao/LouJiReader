@@ -14,5 +14,12 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="6dp"
         android:src="@drawable/ic_classify_grils" />
+    <TextView 
+        android:id="@+id/fragment_readed_text_item"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:textSize="12sp"
+        />
 
 </LinearLayout>

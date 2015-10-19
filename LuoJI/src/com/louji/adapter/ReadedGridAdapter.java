@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.louji.base.R;
 import com.louji.bean.ReadedBookGridBean;
 import com.louji.util.OnlineImageLoader;
@@ -58,20 +61,21 @@ public class ReadedGridAdapter extends BaseAdapter
 			convertView = inflater.inflate(R.layout.fragment_readed_grid_item, null);
 			holder = new ViewHolder();
 			holder.imageView= (RoundImageView)convertView.findViewById(R.id.fragment_readed_image_item);
+			holder.textView = (TextView)convertView.findViewById(R.id.fragment_readed_text_item);
 			convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder)convertView.getTag();
 		}
+		OnlineImageLoader.displayImage(getItem(position).getImageUrl(),
+				holder.imageView, R.drawable.bookpricture);
 		
-		OnlineImageLoader.displayImage(getItem(position).getImageUrl()
-				, holder.imageView,R.drawable.ic_classify_grils);
-		
+		holder.textView.setText(getItem(position).getBookName());
 		return convertView;
 	}
 
 	static class ViewHolder{
 		RoundImageView imageView;
-		
+		TextView textView ;
 	}
 	
 }

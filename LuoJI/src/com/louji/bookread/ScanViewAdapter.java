@@ -8,7 +8,10 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.Vector;
 
-import android.R.integer;
+import com.louji.adapter.PageAdapter;
+import com.louji.base.R;
+import com.louji.util.Util;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
@@ -16,10 +19,6 @@ import android.graphics.Paint.Align;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
-import com.louji.adapter.PageAdapter;
-import com.louji.base.R;
-import com.louji.util.Util;
 
 @SuppressLint("InflateParams")
 public class ScanViewAdapter extends PageAdapter

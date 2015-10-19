@@ -33,4 +33,12 @@
     <string name="bookpop_light">亮度</string>
     <string name="bookpop_card">书签</string>
     <string name="bookpop_send">跳转</string>
+    <string name="title_activity_info_self">InfoSelfActivity</string>
+    
+    <!-- cartcoon -->
+    <string name="cartoon_logout_title">提示</string>
+    <string name="cartoon_logout_body">确定退出</string>
+    <string name="cartoon_logout_submit">是</string>
+    <string name="cartoon_logout_cancel">否</string>
+
 </resources>

@@ -7,7 +7,6 @@ import com.louji.adapter.ReadedGridAdapter;
 import com.louji.base.R;
 import com.louji.bean.ReadedBookGridBean;
 import com.louji.bookread.ReadBookActivity;
-import com.louji.db.Database;
 import com.louji.db.DatabaseFactory;
 import com.louji.dbbean.BookBean;
 
@@ -20,9 +19,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 @SuppressLint("InflateParams")
 public class ReadedFragment extends Fragment
@@ -84,6 +84,7 @@ public class ReadedFragment extends Fragment
 			ReadedBookGridBean readedBookGridBean = new ReadedBookGridBean();
 			readedBookGridBean.setImageUrl(bookBeans.get(i).getBookimage());
 			readedBookGridBean.setFilePath(bookBeans.get(i).getBooklocalpath());
+			readedBookGridBean.setBookName(bookBeans.get(i).getBooktitle());
 			readedBookGridBeans.add(readedBookGridBean);
 		}
 

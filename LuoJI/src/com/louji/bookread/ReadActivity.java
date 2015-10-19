@@ -106,6 +106,7 @@ public class ReadActivity extends Activity
 	@Override
 	protected void onDestroy()
 	{
+		
 		FileUtil.deleteRandonCacheFile(filePath);
 		super.onDestroy();
 	}

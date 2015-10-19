@@ -8,20 +8,7 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.Toast;
-
 import com.gc.materialdesign.views.ButtonFlat;
-import com.gc.materialdesign.views.Slider;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.louji.adapter.BookMarkAdapter;
@@ -30,7 +17,6 @@ import com.louji.adapter.BookMarkAdapter.OnLineReaderListener;
 import com.louji.base.R;
 import com.louji.bean.BookBean;
 import com.louji.bookread.ReadActivity;
-import com.louji.bookread.ReadBookActivity;
 import com.louji.contacts.Contacts;
 import com.louji.db.DatabaseFactory;
 import com.louji.http.BinaryHttpResponseHandler;
@@ -43,6 +29,17 @@ import com.louji.util.FileUtil;
 import com.louji.util.Logger;
 import com.yalantis.taurus.PullToRefreshView;
 import com.yalantis.taurus.PullToRefreshView.OnRefreshListener;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
 /**
  * 推荐页
@@ -94,27 +91,12 @@ public class RecommendFragment extends Fragment
 					JSONArray response)
 			{
 				// TODO Auto-generated method stub
-				Gson gson = new Gson();
-				List<BookJsonBean> bookJsonBeans = gson.fromJson(
-						response.toString(),
-						new TypeToken<List<BookJsonBean>>()
-						{
-						}.getType());
-
-				for (int i = 0; i < bookJsonBeans.size(); i++)
-				{
-					BookBean bookBean = new BookBean();
-					bookBean.setBookUrl(bookJsonBeans.get(i).getBookurl());
-					bookBean.setBookTitle(bookJsonBeans.get(i).getBooktitle());
-					bookBean.setBookInfo(bookJsonBeans.get(i).getBookcontent());
-					bookBean.setImageUrl(bookJsonBeans.get(i).getBookimage());
-					bookBean.setIsrecommend(bookJsonBeans.get(i)
-							.getIsrecommend());
-					bookBeans.add(bookBean);
-				}
+				parserNetData(response);
 
 				super.onSuccess(statusCode, headers, response);
 			}
+
+			
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
@@ -132,6 +114,9 @@ public class RecommendFragment extends Fragment
 
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 			}
+			
+			
+			
 
 		});
 
@@ -181,12 +166,8 @@ public class RecommendFragment extends Fragment
 			String[] contentType = new String[]
 			{ "text/plain" };
 
-			final Slider slider = (Slider) v.getRootView().findViewById(
-					R.id.recommendfragment_item_book_slider);
-
 			Binary binary = new Binary(getActivity());
-			binary.setResponseHandlerInterface(BinaryHttp(v, contentType,
-					slider));
+			binary.setResponseHandlerInterface(BinaryHttp(v, contentType));
 
 			binary.onRun(bookBean1.getBookUrl(), "", "");
 		}
@@ -200,7 +181,7 @@ public class RecommendFragment extends Fragment
 		 * @return
 		 */
 		private BinaryHttpResponseHandler BinaryHttp(final View v,
-				String[] contentType, final Slider slider)
+				String[] contentType)
 		{
 			return new BinaryHttpResponseHandler(contentType)
 			{
@@ -209,9 +190,6 @@ public class RecommendFragment extends Fragment
 				@Override
 				public void onProgress(int bytesWritten, int totalSize)
 				{
-					slider.setVisibility(View.VISIBLE);
-					slider.setMax(totalSize);
-					slider.setValue(bytesWritten);
 					super.onProgress(bytesWritten, totalSize);
 
 				}
@@ -226,21 +204,17 @@ public class RecommendFragment extends Fragment
 
 						filePath = FileUtil.writeFiletoSdcard(getActivity(),
 								binaryData);
-
-						/*Database<com.louji.dbbean.BookBean> bookDatabase = DatabaseFactory
-								.bookData(getActivity());*/
+					
 						bookBean.setBooklocalpath(filePath);
 
-						DatabaseFactory.bookData(getActivity()).save(bookBean, "think_louji_book");
+						DatabaseFactory.bookData(getActivity()).save(bookBean, "think_louji_book");//保存数据
 
 						v.setOnClickListener(new OnChangeListener());
-						((ButtonFlat) v).setText("阅读");
-						slider.setVisibility(View.GONE);
+						((ButtonFlat) v).setText("阅读");	
 
-					} catch (IOException e)
+						} catch (IOException e)
 					{
-						Toast.makeText(getActivity(), "没法写入", Toast.LENGTH_LONG)
-								.show();
+						Logger.i("没法写入");
 						e.printStackTrace();
 					}
 				}
@@ -281,6 +255,37 @@ public class RecommendFragment extends Fragment
 					}
 				}
 			};
+		}
+	}
+	
+	/**
+	 * 解析网络数据
+	 * @param response
+	 */
+	private void parserNetData(JSONArray response)
+	{
+		Gson gson = new Gson();
+		List<BookJsonBean> bookJsonBeans = gson.fromJson(
+				response.toString(),
+				new TypeToken<List<BookJsonBean>>()
+				{
+				}.getType());
+
+		for (int i = 0; i < bookJsonBeans.size(); i++)
+		{
+			BookBean bookBean = new BookBean();
+			bookBean.setBookUrl(bookJsonBeans.get(i).getBookurl());
+			bookBean.setBookTitle(bookJsonBeans.get(i).getBooktitle());
+			bookBean.setBookInfo(bookJsonBeans.get(i).getBookcontent());
+			bookBean.setImageUrl(bookJsonBeans.get(i).getBookimage());
+			bookBean.setIsrecommend(bookJsonBeans.get(i)
+					.getIsrecommend());
+			com.louji.dbbean.BookBean bean = DatabaseFactory.bookData(getActivity()).selectline(bookBean.getBookTitle()) ;//
+			if (bean != null)
+			{
+				bookBean.setBookFilePath(bean.getBooklocalpath());
+			}
+			bookBeans.add(bookBean) ;
 		}
 	}
 

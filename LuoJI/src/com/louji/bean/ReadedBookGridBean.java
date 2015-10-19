@@ -7,6 +7,7 @@ public class ReadedBookGridBean
 	private int imageId;
 	private String imageFilePath;
 	private String filePath;
+	private String bookName ;
 
 	public String getFilePath()
 	{
@@ -53,5 +54,16 @@ public class ReadedBookGridBean
 	{
 		this.imageFilePath = imageFilePath;
 	}
+
+	public String getBookName()
+	{
+		return bookName;
+	}
+
+	public void setBookName(String bookName)
+	{
+		this.bookName = bookName;
+	}
+	
 
 }

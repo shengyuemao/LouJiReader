@@ -41,4 +41,9 @@ public class Logger {
       Log.d(tag, s);
     }
   }
+  
+  
+  
+  
+  
 }

@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+     <!-- 中间图片展示 -->
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_main"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+	    android:layout_centerVertical="true"
+    >
+     
+	     <ScrollView    
+	        android:layout_width="match_parent"  
+	        android:layout_height="wrap_content"    
+	        android:scrollbars="vertical"  
+	    > 
+	    <HorizontalScrollView    
+	        android:layout_height="match_parent"  
+	        android:layout_width="wrap_content"
+	        android:layout_gravity="center_vertical|center_horizontal"
+	    >  
+	        <RelativeLayout 
+	            android:layout_width="fill_parent"  
+	            android:layout_height="fill_parent"  
+	            android:id="@+id/layoutImage"  
+	            >  
+	            <ImageView  
+	                android:id="@+id/cartoon_imageView" 
+	                android:layout_width="fill_parent"  
+	                android:layout_height="wrap_content"  
+					android:layout_centerHorizontal="true"
+	     			android:layout_centerVertical="true"	                
+	                />  
+	        </RelativeLayout>  
+	     </HorizontalScrollView >  
+	    </ScrollView>  
+    </RelativeLayout>
+      <!-- 图片名称 -->
+
+        <TextView
+            android:id="@+id/cartoon_imageName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="14sp" />
+        <!-- 当前位置 -->
+
+        <TextView
+            android:id="@+id/cartoon_pagePosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dip"
+            android:layout_toRightOf="@id/cartoon_imageName"
+            android:textSize="12sp" />
+        <!-- 屏幕两侧 -->
+
+    <RelativeLayout
+        android:id="@+id/layout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dip"
+        android:visibility="invisible" >
+
+        <!-- 上一页 -->
+
+        <ImageButton
+            android:id="@+id/cartoon_lastPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_page_left" />
+        <!-- 下一页 -->
+
+        <ImageButton
+            android:id="@+id/cartoon_nextPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_page_right" />
+    </RelativeLayout>
+</RelativeLayout>

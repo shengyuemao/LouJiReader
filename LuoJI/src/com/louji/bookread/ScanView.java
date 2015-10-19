@@ -20,7 +20,6 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 /**
  * 更多详解见博客http://blog.csdn.net/zhongkejingwang/article/details/38728119

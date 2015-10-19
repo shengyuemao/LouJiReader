@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.louji.base.R;
 import com.louji.bookshelf.BookListFragment;
+import com.louji.util.Logger;
 
 /**
  * Ö÷Ò³Ãæ
@@ -27,6 +28,7 @@ public class MenuActivity extends MaterialNavigationDrawer implements
 	public void onAccountOpening(MaterialAccount account)
 	{
 		// TODO Auto-generated method stub
+		Logger.i("this is onAccountOpening");
 
 	}
 
@@ -34,6 +36,7 @@ public class MenuActivity extends MaterialNavigationDrawer implements
 	public void onChangeAccount(MaterialAccount newAccount)
 	{
 		// TODO Auto-generated method stub
+		Logger.i("this is onChangeAccount");
 
 	}
 
@@ -65,10 +68,6 @@ public class MenuActivity extends MaterialNavigationDrawer implements
 				R.drawable.bamboo);
 		this.addAccount(account);
 
-		MaterialAccount account2 = new MaterialAccount(this.getResources(),
-				"Hatsune Miky", "hatsune.miku@example.com", R.drawable.photo2,
-				R.drawable.mat2);
-		this.addAccount(account2);
 	}
 
 	/**

@@ -2,8 +2,17 @@ package com.louji.adapter;
 
 import java.util.List;
 
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.views.Slider;
+import com.louji.base.R;
+import com.louji.bean.BookBean;
+import com.louji.readtwo.Read;
+import com.louji.util.OnlineImageLoader;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,12 +20,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.gc.materialdesign.views.ButtonFlat;
-import com.gc.materialdesign.views.Slider;
-import com.louji.base.R;
-import com.louji.bean.BookBean;
-import com.louji.util.OnlineImageLoader;
 
 /**
  * 书籍列表适配器 用于适配书籍列表
@@ -78,8 +81,8 @@ public class BookMarkAdapter extends BaseAdapter
 		if (convertView == null)
 		{
 			viewHolder = new ViewHolder();
-			convertView = LayoutInflater.from(context).inflate(
-					R.layout.fragment_recommend_item, null);
+			convertView = LayoutInflater.from(context)
+					.inflate(R.layout.fragment_recommend_item, null);
 			viewHolder.imageView = (ImageView) convertView
 					.findViewById(R.id.recommendfragment_item_book_image);
 			viewHolder.bookTitle = (TextView) convertView
@@ -92,11 +95,13 @@ public class BookMarkAdapter extends BaseAdapter
 					.findViewById(R.id.recommendfragment_item_book_download);
 			viewHolder.progress = (Slider) convertView
 					.findViewById(R.id.recommendfragment_item_book_slider);
+			
 
 			convertView.setTag(viewHolder);
 		} else
 		{
 			viewHolder = (ViewHolder) convertView.getTag();
+			viewHolder.bookDownload.setText("下载");
 		}
 
 		OnlineImageLoader.displayImage(getItem(position).getImageUrl(),
@@ -119,6 +124,10 @@ public class BookMarkAdapter extends BaseAdapter
 			}
 		});
 		
+		if (getItem(position).getBookFilePath() != null)
+		{
+			viewHolder.bookDownload.setText("阅读");
+		}
 
 		viewHolder.bookDownload.setOnClickListener(new OnClickListener()
 		{
@@ -127,9 +136,21 @@ public class BookMarkAdapter extends BaseAdapter
 			public void onClick(View v)
 			{
 
-				if (onDownLoadListener != null)
+				ButtonFlat btn = (ButtonFlat) v.findViewById(
+						R.id.recommendfragment_item_book_download);
+				if (onDownLoadListener != null && !btn.getText().equals("阅读"))
 				{
 					onDownLoadListener.download(getItem(position), v);
+				} else
+				{
+					Bundle bundle = new Bundle();
+					bundle.putString("filePath",
+							getItem(position).getBookFilePath());
+
+					Intent intent = new Intent();
+					intent.setClass(context, Read.class);
+					intent.putExtras(bundle);
+					context.startActivity(intent);
 				}
 
 			}
@@ -187,7 +208,7 @@ public class BookMarkAdapter extends BaseAdapter
 	 */
 	public interface OnDownLoadListener
 	{
-		public void download(BookBean bookBean,  View v);
+		public void download(BookBean bookBean, View v);
 	}
 
 }

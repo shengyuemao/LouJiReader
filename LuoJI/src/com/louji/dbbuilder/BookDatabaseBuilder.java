@@ -17,6 +17,7 @@ public class BookDatabaseBuilder extends DatabaseBuilder<BookBean>
 		int bookurlClumn = c.getColumnIndex("bookurl");
 		int isRecommendClumn = c.getColumnIndex("isrecommend");
 		int bookFilePathClumn = c.getColumnIndex("booklocalpath");
+		int bookImageClumn = c.getColumnIndex("bookimage") ;
 
 		BookBean bookBean = new BookBean();
 		bookBean.setBookcontent(c.getString(bookcontentClumn));
@@ -25,6 +26,7 @@ public class BookDatabaseBuilder extends DatabaseBuilder<BookBean>
 		bookBean.setBookurl(c.getString(bookurlClumn));
 		bookBean.setBooklocalpath(c.getString(bookFilePathClumn));
 		bookBean.setIsrecommend(c.getInt(isRecommendClumn));
+		bookBean.setBookimage(c.getString(bookImageClumn));
 
 		return bookBean;
 	}
@@ -38,6 +40,7 @@ public class BookDatabaseBuilder extends DatabaseBuilder<BookBean>
 		values.put("bookurl", t.getBookurl());
 		values.put("isrecommend", t.getIsrecommend());
 		values.put("booklocalpath", t.getBooklocalpath());
+		values.put("bookimage", t.getBookimage());
 		return values;
 	}
 
