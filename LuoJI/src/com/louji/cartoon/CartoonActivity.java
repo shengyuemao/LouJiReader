@@ -1,259 +1,305 @@
 package com.louji.cartoon;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.louji.base.R;
 import com.louji.contacts.Contacts;
-import com.louji.util.OnlineImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.louji.http.JsonHttpResponseHandler;
+import com.louji.util.FileUtil;
+import com.louji.util.Logger;
+import com.louji.util.NetImageLoader;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.GestureDetector;
 import android.view.View;
+import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-import cn.com.mythos.android.MainActivity;
-import cn.com.mythos.android.Contents.Contents;
-import cn.com.mythos.android.Contents.Utils;
 /**
  * 该Activity主要实现网络在线阅读漫画
+ * 
  * @author Administrator
  *
  */
 public class CartoonActivity extends BaseActivity
 {
-	private RelativeLayout layout1 ;//显示漫画层
-	private RelativeLayout layout2 ;//显示操作层
-	
-	private TextView pagePosition ;//漫画页数显示
-	private TextView imageName ; //漫画名称
-	private ImageView imageView ; //漫画显示
-	private RelativeLayout relativeLayout ; //中间层
-	
-	private Bitmap bmap = null ;
-	private int disWidth ;
-	private int disHeight ;
-	private LinkedList<String> imageList ;//漫画列表
-	private Map<String, String> imagePosition ;//漫画当前位置
-	private int imageIndex ;
-	private GestureDetector gestureDetector ;
-	
-	
-	private String[] imageArray ;//图片集合
-	
-	
-@Override
-protected void onCreate(Bundle savedInstanceState)
-{
-	// TODO Auto-generated method stub
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_cartoon) ;
-	
-	layout1 = (RelativeLayout)findViewById(R.id.layout1) ;
-	layout2 = (RelativeLayout)findViewById(R.id.layout2) ;
-	
-	imageName = (TextView)findViewById(R.id.cartoon_imageName) ;
-	pagePosition = (TextView)findViewById(R.id.cartoon_pagePosition) ;
-	imageView = (ImageView)findViewById(R.id.cartoon_imageView) ;
-	relativeLayout = (RelativeLayout)findViewById(R.id.relativeLayout_main) ;
-}
+	// private RelativeLayout layout1 ;//显示漫画层
 
-/**
- * 获取手机分辨率，根据大小设置高和宽
- */
-public void getDisplayMetrics()
-{
-	DisplayMetrics dm = new DisplayMetrics() ;
-	getWindowManager().getDefaultDisplay().getMetrics(dm) ;
-	disWidth = dm.widthPixels ;
-	disHeight = dm.heightPixels ;
-}
+	private ImageView imageView; // 漫画显示
 
-/**
- * 加载网络文件夹下的所有图片
- */
-public LinkedList<String> netLoadImages(){
-	String picPath = "" ;
-	
-}
+	private ImageButton lastPage;
+	private ImageButton nextPage;
 
-/**
- * 根据intent获得漫画图片的网络路径
- */
-public String getNetPicPath(){
-	String picPath = "" ;
-	Bundle bundle = this.getIntent().getExtras() ;
-	if(bundle != null && bundle.size() > 0 ){
-		picPath = bundle.getString("picUrl") ;
-		
-	}else {
-		picPath = Utils.getFileRead(Contacts.SHOWHISTORY) ;
+	// private RelativeLayout relativeLayout ; //中间层
+
+	private Bitmap bmap = null;
+	private int disWidth;
+	private int disHeight;
+
+	private LinkedList<String> imageList;// 漫画列表
+	private Map<String, String> imagePosition;// 漫画当前位置
+	private int imageIndex;
+
+	private String[] imageArray;// 图片集合
+
+	private boolean iszoom = true;
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_cartoon);
+
+		lastPage = (ImageButton) findViewById(R.id.cartoon_lastPage);
+		nextPage = (ImageButton) findViewById(R.id.cartoon_nextPage);
+		imageView = (ImageView) findViewById(R.id.cartoon_imageView);
+
+		lastPage.setOnClickListener(lastPageButton);
+		nextPage.setOnClickListener(nextPageButton);
+
+		initData();// 初始化数据
+
+		getDisplayMetrics();
+		netLoadImages();// 加载图片列表
+
+		initLoadImages();
 	}
-	return picPath ;
-}
 
-/**
- * 设置当前图片的位置
- */
-public int getPicPosition(String picPath,String[] imagesArray){
-	int position = 0 ;
-	for(int i = 0 ; i < imagesArray.length ; i++ ){
-		if(picPath.equals(imagesArray[i])){
-			position = i ;
-			break ;
+	private void initData()
+	{
+		imageList = new LinkedList<String>();
+		imagePosition = new HashMap<String, String>();
+	}
+
+	/**
+	 * 初始化图片信息
+	 */
+	public void initLoadImages()
+	{
+		setImageView(0);
+		/*
+		 * String picPath = getNetPicPathJpeg(); if (picPath != null) { if
+		 * (imageArray != null && imageArray.length > 0) { int i =
+		 * getPicPosition(picPath, imageArray); setImageView(i); } } else {
+		 * setImageView(0); }
+		 */
+	}
+
+	/**
+	 * 获取手机分辨率，根据大小设置高和宽
+	 */
+	public void getDisplayMetrics()
+	{
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		disWidth = dm.widthPixels;
+		disHeight = dm.heightPixels;
+
+	}
+
+	/**
+	 * 加载网络文件夹下的所有图片
+	 */
+	private void netLoadImages()
+	{
+		String picPath = getNetPicPath();
+		for (int i = 0; i < 52; i++)
+		{
+			DecimalFormat df = new DecimalFormat("000");
+			String str = df.format(i + 1);
+			String url = Contacts.BASE_CARTOON_URL + "chapter1/" + str + ".jpg";
+			Logger.i(url);
+			imageList.add(url);
 		}
+
+		imageArray = imageList.toArray(new String[imageList.size()]);
 	}
-	return position ;
-}
 
-/**
- * 设置当前图片大小
- */
-public void setImageView(int index){
-	imagePosition = new HashMap<String, String>() ;
-	imagePosition.clear();
-	imagePosition.put("positionId", String.valueOf(index)) ;
-	
-	OnlineImageLoader.displayImage(imageArray[index], imageView);
-	setPageInfo() ;
-	Utils.resetBitmap();//重置图片属性参数
-}
+	/**
+	 * 根据intent获得漫画图片的网络路径
+	 */
+	public String getNetPicPath()
+	{
+		String picPath = "";
+		Bundle bundle = this.getIntent().getExtras();
+		if (bundle != null && bundle.size() > 0)
+		{
+			picPath = bundle.getString("picUrl");
 
-/**
- * 设置图片信息
- */
-public void setPageInfo(){
-	if (imageList != null && imageList.size() > 0) {
-		if (imagePosition != null && imagePosition.size() > 0) {
-			String picPath = Utils.getImagePath(imagePosition, imageList);
-			onPause();
-			if (picPath != null && picPath.length() > 0) {
-				String picName = picPath.substring(
-						picPath.lastIndexOf("/") + 1, picPath.length());
-				imageName.setText(picName);
+		} else
+		{
+			picPath = FileUtil.getFileRead(Contacts.SHOWHISTORY);
+		}
+		return picPath;
+	}
+
+	/**
+	 * 根据intent获得漫画图片的网络路径
+	 */
+	public String getNetPicPathJpeg()
+	{
+		String picPath = "";
+		Bundle bundle = this.getIntent().getExtras();
+		if (bundle != null && bundle.size() > 0)
+		{
+			picPath = bundle.getString("picUrlJpeg");
+
+		} else
+		{
+			picPath = FileUtil.getFileRead(Contacts.SHOWHISTORY);
+		}
+		return picPath;
+	}
+
+	/**
+	 * 设置当前图片的位置
+	 */
+	public int getPicPosition(String picPath, String[] imagesArray)
+	{
+		int position = 0;
+		for (int i = 0; i < imagesArray.length; i++)
+		{
+			if (picPath.equals(imagesArray[i]))
+			{
+				position = i;
+				break;
 			}
-			String page = Utils.getImagePagePosition(imagePosition,
-					imageList);
-			pagePosition.setText(page);
 		}
-	} else {
-		showNoPicMsg();
+		return position;
 	}
-}
 
-//图片不存在信息
-	public void showNoPicMsg() {
+	/**
+	 * 设置当前图片大小
+	 */
+	public void setImageView(int index)
+	{
+		imagePosition = new HashMap<String, String>();
+		imagePosition.clear();
+		imagePosition.put("positionId", String.valueOf(index));
+
+		Logger.i(imageArray[index] + "this is one");
+		NetImageLoader imageLoader = new NetImageLoader(
+				getApplicationContext());
+		imageLoader.displayImage(imageArray[index] + "", imageView);
+		FileUtil.resetBitmap();// 重置图片属性参数
+	}
+	// setImageView方法的重载,用于显示bitmap
+	public void setImageView(Bitmap bitmap)
+	{
+		imageView.setImageBitmap(bitmap);
+	}
+	// 图片不存在信息
+	public void showNoPicMsg()
+	{
 		Toast.makeText(this, "没有图片", Toast.LENGTH_SHORT).show();
 	}
 
 	// 信息提示
-	public void showMsg(int id) {
+	public void showMsg(int id)
+	{
 		Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
 	}
-	
+
 	// 信息提示的重载
-	public void showMsg(String str) {
-		Toast.makeText(this, str,Toast.LENGTH_SHORT).show();
+	public void showMsg(String str)
+	{
+		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
 	}
-	
-	/**
-	 * 重写并覆盖掉SHOWTIME文件,防止在切换Activity时的线程运作
-	 */
-	private void setAutoPlayTime(String time){
-		String content = "time=" + time;
-		Utils.saveFile(Contacts.AUTOSHOWTIME, content, false);
+	// lastPageButton的监听
+	public View.OnClickListener lastPageButton = new View.OnClickListener()
+	{
+
+		public void onClick(View v)
+		{
+			getArrayAtBitmap("left");
+		}
+	};
+	// nextPageButton的监听
+	public View.OnClickListener nextPageButton = new View.OnClickListener()
+	{
+
+		public void onClick(View v)
+		{
+			getArrayAtBitmap("right");
+		}
+	};
+	// 页面跳转的方法
+	public void getArrayAtBitmap(String str)
+	{
+		if (imageList != null && imageList.size() > 0)
+		{
+			int position = Integer.parseInt(imagePosition.get("positionId"));
+			if ("left".equals(str))
+			{
+				if (position >= 1)
+				{
+					imageIndex = position - 1;
+					setImageView(imageIndex);
+					showMsg((imageIndex + 1) + "/" + imageArray.length);
+				} else
+				{
+					showMsg(R.string.cartoon_pageFirst);
+				}
+			}
+			if ("right".equals(str))
+			{
+				if (position < imageArray.length - 1)
+				{
+					imageIndex = position + 1;
+					setImageView(imageIndex);
+					showMsg((imageIndex + 1) + "/" + imageArray.length);
+				} else if (position == imageArray.length - 1)
+				{
+					showMsg(R.string.cartoon_pageEnd);
+				}
+			}
+		} else
+		{
+			showNoPicMsg();
+		}
 	}
-	
-	
-	/**页面跳转按钮的监听，实现第一页、上一页、下一页、最后一页的跳转*/
-		private View.OnClickListener pageButton = new View.OnClickListener() {
+	private JsonHttpResponseHandler getCartoonList(
+			final LinkedList<String> list)
+	{
+		return new JsonHttpResponseHandler()
+		{
 
-			public void onClick(View v) {
-				AlertDialog.Builder dialog = new AlertDialog.Builder(
-						CartoonActivity.this);
-				dialog.setTitle(R.string.pageTitle);
-				String[] PAGEARRAY = new String[] { getString(R.string.firstPage),
-						getString(R.string.beforePage),
-						getString(R.string.nextPage), getString(R.string.lastPage) };
-				dialog.setItems(PAGEARRAY, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						if(imagePosition != null && imagePosition.size() > 0) {
-							int position = Integer.parseInt(imagePosition
-									.get("positionId"));
-							switch (which) {
-							case 0:
-								if (position > 0) {
-									imageIndex = 0;
-									setImageView(imageIndex);
-									showMsg((imageIndex + 1) + "/" + imageArray.length);
-								} else {
-									showMsg(R.string.pageFirst);
-								}
-								break;
-							case 1:
-								if (position >= 1) {
-									imageIndex = position - 1;
-									setImageView(imageIndex);
-									showMsg((imageIndex + 1) + "/" + imageArray.length);
-								} else {
-									showMsg(R.string.pageFirst);
-								}
-								break;
-							case 2:
-								if (position < imageArray.length - 1) {
-									imageIndex = position + 1;
-									setImageView(imageIndex);
-									showMsg((imageIndex + 1) + "/" + imageArray.length);
-								} else if (position == imageArray.length - 1) {
-									showMsg(R.string.pageEnd);
-								}
-								break;
-							case 3:
-								if (position != imageArray.length - 1) {
-									imageIndex = imageArray.length - 1;
-									setImageView(imageIndex);
-									showMsg((imageIndex + 1) + "/" + imageArray.length);
-								} else {
-									showMsg(R.string.pageEnd);
-								}
-								break;
-							}
-						}
-					}
-				});
-				dialog.setNegativeButton(R.string.pageCancel,
-						new DialogInterface.OnClickListener() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONArray response)
+			{
 
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.dismiss();
-
-							}
-						});
-				dialog.show();
+				super.onSuccess(statusCode, headers, response);
 			}
-		};
 
-		// lastPageButton的监听
-		public View.OnClickListener lastPageButton = new View.OnClickListener() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response)
+			{
+				// TODO Auto-generated method stub
+				super.onSuccess(statusCode, headers, response);
 
-			public void onClick(View v) {
-				getArrayAtBitmap("left");
 			}
-		};
-		// nextPageButton的监听
-		public View.OnClickListener nextPageButton = new View.OnClickListener() {
 
-			public void onClick(View v) {
-				getArrayAtBitmap("right");
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONArray errorResponse)
+			{
+
+				super.onFailure(statusCode, headers, throwable, errorResponse);
 			}
+
 		};
+	}
+
 }

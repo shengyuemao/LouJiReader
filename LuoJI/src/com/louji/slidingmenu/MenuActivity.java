@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.louji.base.R;
 import com.louji.bookshelf.BookListFragment;
+import com.louji.cartoon.CartoonFragment;
 import com.louji.util.Logger;
 
 /**
@@ -88,8 +89,8 @@ public class MenuActivity extends MaterialNavigationDrawer implements
 	{
 		this.addSection(newSection("书单", R.drawable.bookmark,
 				new BookListFragment()));
-		this.addSection(newSection("书友", R.drawable.bookfirends,
-				new BookListFragment()));
+		this.addSection(newSection("漫画", R.drawable.bookfirends,
+				new CartoonFragment()));
 		this.addSection(newSection("阅历", R.drawable.bookfoot,
 				new BookListFragment()));
 		this.addSection(newSection("云书架", R.drawable.bookyun,

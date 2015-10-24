@@ -40,5 +40,13 @@
     <string name="cartoon_logout_body">确定退出</string>
     <string name="cartoon_logout_submit">是</string>
     <string name="cartoon_logout_cancel">否</string>
+    <string name="cartoon_firstPage">第一页</string>
+    <string name="cartoon_beforePage">上一页</string>
+    <string name="cartoon_nextPage">下一页</string>
+    <string name="cartoon_lastPage">最后一页</string>
+    <string name="cartoon_pageTitle">跳转到</string>
+    <string name="cartoon_pageFirst">当前位置是第一页</string>
+    <string name="cartoon_pageEnd">当前位置是最后一页</string>
+    <string name="cartoon_pageCancel">取 消</string>
 
 </resources>

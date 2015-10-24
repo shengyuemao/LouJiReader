@@ -7,7 +7,7 @@ import com.gc.materialdesign.views.Slider;
 import com.louji.base.R;
 import com.louji.bean.BookBean;
 import com.louji.readtwo.Read;
-import com.louji.util.OnlineImageLoader;
+import com.louji.util.NetImageLoader;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -95,7 +95,6 @@ public class BookMarkAdapter extends BaseAdapter
 					.findViewById(R.id.recommendfragment_item_book_download);
 			viewHolder.progress = (Slider) convertView
 					.findViewById(R.id.recommendfragment_item_book_slider);
-			
 
 			convertView.setTag(viewHolder);
 		} else
@@ -103,9 +102,13 @@ public class BookMarkAdapter extends BaseAdapter
 			viewHolder = (ViewHolder) convertView.getTag();
 			viewHolder.bookDownload.setText("ÏÂÔØ");
 		}
-
-		OnlineImageLoader.displayImage(getItem(position).getImageUrl(),
-				viewHolder.imageView, R.drawable.bookpricture);
+		NetImageLoader imageLoader = new NetImageLoader(context);
+		imageLoader.displayImage(getItem(position).getImageUrl(),
+				viewHolder.imageView);
+		/*
+		 * OnlineImageLoader.displayImage(getItem(position).getImageUrl(),
+		 * viewHolder.imageView, R.drawable.bookpricture);
+		 */
 		viewHolder.bookTitle.setText(getItem(position).getBookTitle());
 
 		viewHolder.bookBody.setText(getItem(position).getBookInfo());
@@ -123,7 +126,7 @@ public class BookMarkAdapter extends BaseAdapter
 
 			}
 		});
-		
+
 		if (getItem(position).getBookFilePath() != null)
 		{
 			viewHolder.bookDownload.setText("ÔÄ¶Á");

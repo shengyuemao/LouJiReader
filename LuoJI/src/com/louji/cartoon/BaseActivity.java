@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.louji.base.R;
 import com.louji.contacts.Contacts;
+import com.louji.util.FileUtil;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -66,9 +67,9 @@ public class BaseActivity extends Activity
 	 */
 	public static void saveReaderState(){
 		try{
-			String picPath = Utils.getImagePath(imagePosition, imageList);
+			String picPath = FileUtil.getImagePath(imagePosition, imageList);
 			if(picPath != null){
-				Utils.saveFile(Contacts.SHOWHISTORY, picPath, false) ;
+				FileUtil.saveFile(Contacts.SHOWHISTORY, picPath, false) ;
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

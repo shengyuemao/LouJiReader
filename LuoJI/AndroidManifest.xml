@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="21" />
     <!-- 创建快捷方式权限 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
@@ -72,6 +72,15 @@
         <activity
             android:name=".InfoSelfActivity"
             android:label="@string/title_activity_info_self" >
+        </activity>
+
+        <!-- Cartoon相关Activity -->
+        <activity
+            android:name="com.louji.cartoon.BaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.louji.cartoon.CartoonActivity"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
