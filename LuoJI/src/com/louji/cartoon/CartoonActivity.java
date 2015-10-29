@@ -5,13 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.louji.base.R;
 import com.louji.contacts.Contacts;
-import com.louji.http.JsonHttpResponseHandler;
 import com.louji.util.FileUtil;
 import com.louji.util.Logger;
 import com.louji.util.NetImageLoader;
@@ -32,14 +27,11 @@ import android.widget.Toast;
  */
 public class CartoonActivity extends BaseActivity
 {
-	// private RelativeLayout layout1 ;//ÏÔÊ¾Âþ»­²ã
 
 	private ImageView imageView; // Âþ»­ÏÔÊ¾
 
 	private ImageButton lastPage;
 	private ImageButton nextPage;
-
-	// private RelativeLayout relativeLayout ; //ÖÐ¼ä²ã
 
 	private Bitmap bmap = null;
 	private int disWidth;
@@ -87,12 +79,7 @@ public class CartoonActivity extends BaseActivity
 	public void initLoadImages()
 	{
 		setImageView(0);
-		/*
-		 * String picPath = getNetPicPathJpeg(); if (picPath != null) { if
-		 * (imageArray != null && imageArray.length > 0) { int i =
-		 * getPicPosition(picPath, imageArray); setImageView(i); } } else {
-		 * setImageView(0); }
-		 */
+
 	}
 
 	/**
@@ -268,38 +255,5 @@ public class CartoonActivity extends BaseActivity
 			showNoPicMsg();
 		}
 	}
-	private JsonHttpResponseHandler getCartoonList(
-			final LinkedList<String> list)
-	{
-		return new JsonHttpResponseHandler()
-		{
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers,
-					JSONArray response)
-			{
-
-				super.onSuccess(statusCode, headers, response);
-			}
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers,
-					JSONObject response)
-			{
-				// TODO Auto-generated method stub
-				super.onSuccess(statusCode, headers, response);
-
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					Throwable throwable, JSONArray errorResponse)
-			{
-
-				super.onFailure(statusCode, headers, throwable, errorResponse);
-			}
-
-		};
-	}
-
+	
 }

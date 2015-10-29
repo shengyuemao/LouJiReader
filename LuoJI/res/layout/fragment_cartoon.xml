@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.yalantis.taurus.PullToRefreshView
+        android:id="@+id/recommendfragment_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/cartoonfragment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#ffffff" >
+
+            <com.louji.widgets.RecycleView
+                android:id="@+id/cartoonfragment_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="180dp" >
+            </com.louji.widgets.RecycleView>
+
+            <TextView
+                android:id="@+id/cartoonfragment_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="强力推荐"
+                android:textColor="#000000"/>
+            <com.louji.widgets.RecommandCartoonLinearLayout 
+                android:id="@+id/cartoonfragment_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                ></com.louji.widgets.RecommandCartoonLinearLayout>
+
+        </LinearLayout>
+    </com.yalantis.taurus.PullToRefreshView>
+
+</LinearLayout>

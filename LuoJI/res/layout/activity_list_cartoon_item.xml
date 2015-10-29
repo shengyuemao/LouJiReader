@@ -1,0 +1,11 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_list_cartoon_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <com.louji.widgets.PhotoView
+        android:id="@+id/activity_list_cartoon_item_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

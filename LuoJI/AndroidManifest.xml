@@ -82,6 +82,10 @@
             android:name="com.louji.cartoon.CartoonActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.louji.cartoon.CartoonViewPagerActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
