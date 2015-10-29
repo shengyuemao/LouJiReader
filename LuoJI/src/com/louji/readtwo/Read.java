@@ -41,8 +41,10 @@ import android.widget.Toast;
 
 import com.louji.base.R;
 
-public class Read extends Activity implements OnClickListener,
-		OnSeekBarChangeListener
+public class Read extends Activity
+		implements
+			OnClickListener,
+			OnSeekBarChangeListener
 {
 
 	private static final String TAG = "Read2";
@@ -67,8 +69,8 @@ public class Read extends Activity implements OnClickListener,
 	private MarkDialog mDialog = null;
 	private Context mContext = null;
 	private PageWidget mPageWidget;
-	private PopupWindow mPopupWindow, mToolpop, mToolpop1, mToolpop2,
-			mToolpop3, mToolpop4;
+	private PopupWindow mPopupWindow, mToolpop, mToolpop1, mToolpop2, mToolpop3,
+			mToolpop4;
 	protected int PAGE = 1;
 	private BookPageFactory pagefactory;
 	private View popupwindwow, toolpop, toolpop1, toolpop2, toolpop3, toolpop4;
@@ -88,19 +90,19 @@ public class Read extends Activity implements OnClickListener,
 		{
 			switch (msg.what)
 			{
-			case 0:
-				begin = msg.arg1;
-				pagefactory.setM_mbBufBegin(begin);
-				pagefactory.setM_mbBufEnd(begin);
-				postInvalidateUI();
-				break;
-			case 1:
-				pagefactory.setM_mbBufBegin(begin);
-				pagefactory.setM_mbBufEnd(begin);
-				postInvalidateUI();
-				break;
-			default:
-				break;
+				case 0 :
+					begin = msg.arg1;
+					pagefactory.setM_mbBufBegin(begin);
+					pagefactory.setM_mbBufEnd(begin);
+					postInvalidateUI();
+					break;
+				case 1 :
+					pagefactory.setM_mbBufBegin(begin);
+					pagefactory.setM_mbBufEnd(begin);
+					postInvalidateUI();
+					break;
+				default :
+					break;
 			}
 		}
 	};
@@ -139,119 +141,123 @@ public class Read extends Activity implements OnClickListener,
 	{
 		switch (v.getId())
 		{
-		// 字体按钮
-		case R.id.bookBtn1:
-			a = 1;
-			setToolPop(a);
-			break;
-		// 亮度按钮
-		case R.id.bookBtn2:
-			a = 2;
-			setToolPop(a);
-			break;
-		// 书签按钮
-		case R.id.bookBtn3:
-			a = 3;
-			setToolPop(a);
-			break;
-		// 跳转按钮
-		case R.id.bookBtn4:
-			a = 4;
-			setToolPop(a);
-			break;
+			// 字体按钮
+			case R.id.bookBtn1 :
+				a = 1;
+				setToolPop(a);
+				break;
+			// 亮度按钮
+			case R.id.bookBtn2 :
+				a = 2;
+				setToolPop(a);
+				break;
+			// 书签按钮
+			case R.id.bookBtn3 :
+				a = 3;
+				setToolPop(a);
+				break;
+			// 跳转按钮
+			case R.id.bookBtn4 :
+				a = 4;
+				setToolPop(a);
+				break;
 
-		// 夜间模式按钮
-		case R.id.imageBtn2:
-			if (isNight)
-			{
-				pagefactory.setM_textColor(Color.rgb(28, 28, 28));
-				imageBtn2.setImageResource(R.drawable.reader_switch_off);
-				isNight = false;
-				pagefactory.setBgBitmap(BitmapFactory.decodeResource(
-						this.getResources(), R.drawable.bg));
-			} else
-			{
-				pagefactory.setM_textColor(Color.rgb(128, 128, 128));
-				imageBtn2.setImageResource(R.drawable.reader_switch_on);
-				isNight = true;
-				pagefactory.setBgBitmap(BitmapFactory.decodeResource(
-						this.getResources(), R.drawable.main_bg));
-			}
-			setLight();
-			pagefactory.setM_mbBufBegin(begin);
-			pagefactory.setM_mbBufEnd(begin);
-			postInvalidateUI();
-			break;
-		// 添加书签按钮
-		case R.id.imageBtn3_1:
-			SQLiteDatabase db = markhelper.getWritableDatabase();
-			try
-			{
-				SimpleDateFormat sf = new SimpleDateFormat(
-						"yyyy-MM-dd HH:mm ss");
-				String time = sf.format(new Date());
-				db.execSQL(
-						"insert into markhelper (path ,begin,word,time) values (?,?,?,?)",
-						new String[]
-						{ bookPath, begin + "", word, time });
-				db.close();
-				Toast.makeText(Read.this, "书签添加成功", Toast.LENGTH_SHORT).show();
-			} catch (SQLException e)
-			{
-				Toast.makeText(Read.this, "该书签已存在", Toast.LENGTH_SHORT).show();
-			} catch (Exception e)
-			{
-				Toast.makeText(Read.this, "添加书签失败", Toast.LENGTH_SHORT).show();
-			}
-			mToolpop.dismiss();
-			mToolpop3.dismiss();
-			break;
-		// 我的书签按钮
-		case R.id.imageBtn3_2:
-			SQLiteDatabase dbSelect = markhelper.getReadableDatabase();
-			String col[] =
-			{ "begin", "word", "time" };
-			Cursor cur = dbSelect.query("markhelper", col, "path = '"
-					+ bookPath + "'", null, null, null, null);
-			Integer num = cur.getCount();
-			if (num == 0)
-			{
-				Toast.makeText(Read.this, "您还没有书签", Toast.LENGTH_SHORT).show();
-			} else
-			{
-				ArrayList<MarkVo> markList = new ArrayList<MarkVo>();
-				while (cur.moveToNext())
+			// 夜间模式按钮
+			case R.id.imageBtn2 :
+				if (isNight)
 				{
-					String s1 = cur.getString(cur.getColumnIndex("word"));
-					String s2 = cur.getString(cur.getColumnIndex("time"));
-					int b1 = cur.getInt(cur.getColumnIndex("begin"));
-					int p = 0;
-					int count = 10;
-					MarkVo mv = new MarkVo(s1, p, count, b1, s2, bookPath);
-					markList.add(mv);
+					pagefactory.setM_textColor(Color.rgb(28, 28, 28));
+					imageBtn2.setImageResource(R.drawable.reader_switch_off);
+					isNight = false;
+					pagefactory.setBgBitmap(BitmapFactory.decodeResource(
+							this.getResources(), R.drawable.bg));
+				} else
+				{
+					pagefactory.setM_textColor(Color.rgb(128, 128, 128));
+					imageBtn2.setImageResource(R.drawable.reader_switch_on);
+					isNight = true;
+					pagefactory.setBgBitmap(BitmapFactory.decodeResource(
+							this.getResources(), R.drawable.main_bg));
 				}
-				mDialog = new MarkDialog(this, markList, mHandler,
-						R.style.FullHeightDialog);
+				setLight();
+				pagefactory.setM_mbBufBegin(begin);
+				pagefactory.setM_mbBufEnd(begin);
+				postInvalidateUI();
+				break;
+			// 添加书签按钮
+			case R.id.imageBtn3_1 :
+				SQLiteDatabase db = markhelper.getWritableDatabase();
+				try
+				{
+					SimpleDateFormat sf = new SimpleDateFormat(
+							"yyyy-MM-dd HH:mm ss");
+					String time = sf.format(new Date());
+					db.execSQL(
+							"insert into markhelper (path ,begin,word,time) values (?,?,?,?)",
+							new String[]
+					{bookPath, begin + "", word, time});
+					db.close();
+					Toast.makeText(Read.this, "书签添加成功", Toast.LENGTH_SHORT)
+							.show();
+				} catch (SQLException e)
+				{
+					Toast.makeText(Read.this, "该书签已存在", Toast.LENGTH_SHORT)
+							.show();
+				} catch (Exception e)
+				{
+					Toast.makeText(Read.this, "添加书签失败", Toast.LENGTH_SHORT)
+							.show();
+				}
+				mToolpop.dismiss();
+				mToolpop3.dismiss();
+				break;
+			// 我的书签按钮
+			case R.id.imageBtn3_2 :
+				SQLiteDatabase dbSelect = markhelper.getReadableDatabase();
+				String col[] =
+				{"begin", "word", "time"};
+				Cursor cur = dbSelect.query("markhelper", col,
+						"path = '" + bookPath + "'", null, null, null, null);
+				Integer num = cur.getCount();
+				if (num == 0)
+				{
+					Toast.makeText(Read.this, "您还没有书签", Toast.LENGTH_SHORT)
+							.show();
+				} else
+				{
+					ArrayList<MarkVo> markList = new ArrayList<MarkVo>();
+					while (cur.moveToNext())
+					{
+						String s1 = cur.getString(cur.getColumnIndex("word"));
+						String s2 = cur.getString(cur.getColumnIndex("time"));
+						int b1 = cur.getInt(cur.getColumnIndex("begin"));
+						int p = 0;
+						int count = 10;
+						MarkVo mv = new MarkVo(s1, p, count, b1, s2, bookPath);
+						markList.add(mv);
+					}
+					mDialog = new MarkDialog(this, markList, mHandler,
+							R.style.FullHeightDialog);
 
-				mDialog.setCancelable(false);
+					mDialog.setCancelable(false);
 
-				mDialog.setTitle("我的书签");
-				mDialog.show();
-			}
-			dbSelect.close();
-			cur.close();
-			mToolpop.dismiss();
-			mToolpop3.dismiss();
-			break;
-		case R.id.imageBtn4_1:
-			clear();
-			pagefactory.setM_mbBufBegin(begin);
-			pagefactory.setM_mbBufEnd(begin);
-			postInvalidateUI();
-			break;
-		case R.id.imageBtn4_2:
-			clear();
-			break;
+					mDialog.setTitle("我的书签");
+					mDialog.show();
+				}
+				dbSelect.close();
+				cur.close();
+				mToolpop.dismiss();
+				mToolpop3.dismiss();
+				break;
+			case R.id.imageBtn4_1 :
+				clear();
+				pagefactory.setM_mbBufBegin(begin);
+				pagefactory.setM_mbBufEnd(begin);
+				postInvalidateUI();
+				break;
+			case R.id.imageBtn4_2 :
+				clear();
+				break;
 		}
 	}
 
@@ -270,7 +276,7 @@ public class Read extends Activity implements OnClickListener,
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
 		defaultSize = (screenWidth * 20) / 320;
-		readHeight = screenHeight - (50 * screenWidth) / 320;
+		readHeight = screenHeight - (40 * screenWidth) / 320;
 
 		mCurPageBitmap = Bitmap.createBitmap(screenWidth, screenHeight,
 				Bitmap.Config.ARGB_8888);
@@ -374,13 +380,13 @@ public class Read extends Activity implements OnClickListener,
 		pagefactory = new BookPageFactory(screenWidth, readHeight);// 书工厂
 		if (isNight)
 		{
-			pagefactory.setBgBitmap(BitmapFactory.decodeResource(
-					this.getResources(), R.drawable.main_bg));
+			pagefactory.setBgBitmap(BitmapFactory
+					.decodeResource(this.getResources(), R.drawable.main_bg));
 			pagefactory.setM_textColor(Color.rgb(128, 128, 128));
 		} else
 		{
-			pagefactory.setBgBitmap(BitmapFactory.decodeResource(
-					this.getResources(), R.drawable.bg));
+			pagefactory.setBgBitmap(BitmapFactory
+					.decodeResource(this.getResources(), R.drawable.bg));
 			pagefactory.setM_textColor(Color.rgb(28, 28, 28));
 		}
 		begin = sp.getInt(bookPath + "begin", 0);
@@ -423,9 +429,8 @@ public class Read extends Activity implements OnClickListener,
 				if (show)
 				{// 如果popwindow正在显示
 					popDismiss();
-					getWindow()
-							.clearFlags(
-									WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+					getWindow().clearFlags(
+							WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 					show = false;
 					mPopupWindow.dismiss();
 				} else
@@ -438,9 +443,8 @@ public class Read extends Activity implements OnClickListener,
 				{
 					if (show)
 					{// 如果popwindow正在显示
-						getWindow()
-								.clearFlags(
-										WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+						getWindow().clearFlags(
+								WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 						show = false;
 						mPopupWindow.dismiss();
 						popDismiss();
@@ -495,46 +499,49 @@ public class Read extends Activity implements OnClickListener,
 	{
 		switch (seekBar.getId())
 		{
-		// 字体进度条
-		case R.id.seekBar1:
-			size = seekBar1.getProgress() + 15;
-			setSize();
-			pagefactory.setM_fontSize(size);
-			pagefactory.setM_mbBufBegin(begin);
-			pagefactory.setM_mbBufEnd(begin);
-			postInvalidateUI();
-			break;
-		// 亮度进度条
-		case R.id.seekBar2:
-			light = seekBar2.getProgress();
-			setLight();
-			lp.screenBrightness = light / 10.0f < 0.01f ? 0.01f : light / 10.0f;
-			getWindow().setAttributes(lp);
-			break;
-		// 跳转进度条
-		case R.id.seekBar4:
-			int s = seekBar4.getProgress();
-			markEdit4.setText(s + "%");
-			begin = (pagefactory.getM_mbBufLen() * s) / 100;
-			editor.putInt(bookPath + "begin", begin).commit();
-			pagefactory.setM_mbBufBegin(begin);
-			pagefactory.setM_mbBufEnd(begin);
-			try
-			{
-				if (s == 100)
+			// 字体进度条
+			case R.id.seekBar1 :
+				size = seekBar1.getProgress() + 15;
+				setSize();
+				pagefactory.setM_fontSize(size);
+				pagefactory.setM_mbBufBegin(begin);
+				pagefactory.setM_mbBufEnd(begin);
+				postInvalidateUI();
+				break;
+			// 亮度进度条
+			case R.id.seekBar2 :
+				light = seekBar2.getProgress();
+				setLight();
+				lp.screenBrightness = light / 10.0f < 0.01f
+						? 0.01f
+						: light / 10.0f;
+				getWindow().setAttributes(lp);
+				break;
+			// 跳转进度条
+			case R.id.seekBar4 :
+				int s = seekBar4.getProgress();
+				markEdit4.setText(s + "%");
+				begin = (pagefactory.getM_mbBufLen() * s) / 100;
+				editor.putInt(bookPath + "begin", begin).commit();
+				pagefactory.setM_mbBufBegin(begin);
+				pagefactory.setM_mbBufEnd(begin);
+				try
 				{
-					pagefactory.prePage();
-					pagefactory.getM_mbBufBegin();
-					begin = pagefactory.getM_mbBufEnd();
-					pagefactory.setM_mbBufBegin(begin);
-					pagefactory.setM_mbBufBegin(begin);
+					if (s == 100)
+					{
+						pagefactory.prePage();
+						pagefactory.getM_mbBufBegin();
+						begin = pagefactory.getM_mbBufEnd();
+						pagefactory.setM_mbBufBegin(begin);
+						pagefactory.setM_mbBufBegin(begin);
+					}
+				} catch (IOException e)
+				{
+					Log.e(TAG, "onProgressChanged seekBar4-> IOException error",
+							e);
 				}
-			} catch (IOException e)
-			{
-				Log.e(TAG, "onProgressChanged seekBar4-> IOException error", e);
-			}
-			postInvalidateUI();
-			break;
+				postInvalidateUI();
+				break;
 		}
 	}
 
@@ -716,13 +723,13 @@ public class Read extends Activity implements OnClickListener,
 					markEdit4 = (TextView) toolpop4
 							.findViewById(R.id.markEdit4);
 					// begin = sp.getInt(bookPath + "begin", 1);
-					float fPercent = (float) (begin * 1.0 / pagefactory
-							.getM_mbBufLen());
+					float fPercent = (float) (begin * 1.0
+							/ pagefactory.getM_mbBufLen());
 					DecimalFormat df = new DecimalFormat("#0");
 					String strPercent = df.format(fPercent * 100) + "%";
 					markEdit4.setText(strPercent);
-					seekBar4.setProgress(Integer.parseInt(df
-							.format(fPercent * 100)));
+					seekBar4.setProgress(
+							Integer.parseInt(df.format(fPercent * 100)));
 					seekBar4.setOnSeekBarChangeListener(this);
 					imageBtn4_1.setOnClickListener(this);
 					imageBtn4_2.setOnClickListener(this);
@@ -801,12 +808,13 @@ public class Read extends Activity implements OnClickListener,
 				seekBar4 = (SeekBar) toolpop4.findViewById(R.id.seekBar4);
 				markEdit4 = (TextView) toolpop4.findViewById(R.id.markEdit4);
 				// jumpPage = sp.getInt(bookPath + "jumpPage", 1);
-				float fPercent = (float) (begin * 1.0 / pagefactory
-						.getM_mbBufLen());
+				float fPercent = (float) (begin * 1.0
+						/ pagefactory.getM_mbBufLen());
 				DecimalFormat df = new DecimalFormat("#0");
 				String strPercent = df.format(fPercent * 100) + "%";
 				markEdit4.setText(strPercent);
-				seekBar4.setProgress(Integer.parseInt(df.format(fPercent * 100)));
+				seekBar4.setProgress(
+						Integer.parseInt(df.format(fPercent * 100)));
 				seekBar4.setOnSeekBarChangeListener(this);
 				imageBtn4_1.setOnClickListener(this);
 				imageBtn4_2.setOnClickListener(this);

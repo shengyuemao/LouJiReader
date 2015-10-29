@@ -8,46 +8,35 @@ import java.util.List;
 import java.util.Map;
 
 import com.louji.adapter.CartoonAdapter;
-import com.louji.adapter.CartoonListAdapter;
 import com.louji.base.R;
 import com.louji.contacts.Contacts;
 import com.louji.util.FileUtil;
-import com.louji.util.Logger;
 import com.louji.widgets.CartoonLinearLayout;
-import com.louji.widgets.ImageTouchView;
 import com.louji.widgets.PhotoView;
 
-import android.graphics.Matrix;
-import android.opengl.Visibility;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView.ScaleType;
-import android.widget.ListView;
-import android.widget.Toast;
 
 public class CartoonViewPagerActivity extends BaseActivity
 {
 
 	private ViewPager viewPager;
-	private ListView listView;
 	private CartoonLinearLayout cartoonLinearLayout;
 	private List<PhotoView> matrixImageViews;
 	private List<String> imageurls;
 	private CartoonAdapter cartoonAdapter;
-	private CartoonListAdapter cartoonListAdapter;
 
 	private LinkedList<String> imageList;
 	private Map<String, String> imagePosition;
-	private String[] imageArray;// 图片集合
 
-	private int imageIndex;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -59,7 +48,6 @@ public class CartoonViewPagerActivity extends BaseActivity
 		setContentView(R.layout.activity_viewpager_cartoon);
 
 		viewPager = (ViewPager) findViewById(R.id.pager_cartoon);
-		listView = (ListView) findViewById(R.id.list_cartoon);
 		cartoonLinearLayout = (CartoonLinearLayout) findViewById(
 				R.id.scroll_cartoon);
 		initData();
@@ -81,35 +69,11 @@ public class CartoonViewPagerActivity extends BaseActivity
 	private void initScrollViewUI()
 	{
 		viewPager.setVisibility(View.GONE);
-		cartoonLinearLayout.setVisibility(View.VISIBLE);
 		cartoonLinearLayout.setCartoonListAdapter(matrixImageViews);
 	}
 
-	private void initListViewUI()
+	public void initViewPagerUI()
 	{
-
-		viewPager.setVisibility(View.GONE);
-		listView.setVisibility(View.VISIBLE);
-		cartoonListAdapter = new CartoonListAdapter(getApplicationContext(),
-				imageurls);
-		listView.setAdapter(cartoonListAdapter);
-		listView.setOnItemClickListener(new OnItemClickListener()
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id)
-			{
-				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(), "next",
-						Toast.LENGTH_LONG).show();
-			}
-		});
-	}
-
-	private void initViewPagerUI()
-	{
-		listView.setVisibility(View.GONE);
 		viewPager.setVisibility(View.VISIBLE);
 		cartoonAdapter = new CartoonAdapter(getApplicationContext(),
 				matrixImageViews);
@@ -123,7 +87,6 @@ public class CartoonViewPagerActivity extends BaseActivity
 			public void onPageSelected(int position)
 			{
 				// TODO Auto-generated method stub
-				imageIndex = position;
 				imagePosition.clear();
 				imagePosition.put("positionId", String.valueOf(position));
 
@@ -150,25 +113,32 @@ public class CartoonViewPagerActivity extends BaseActivity
 	 */
 	private void netLoadImages()
 	{
+		List<String> title1s = new ArrayList<String>();
+		List<String> title2s = new ArrayList<String>();
+		List<String> picnames = new ArrayList<String>();
 		// String picPath = getNetPicPath();
 		for (int i = 0; i < 52; i++)
 		{
 			DecimalFormat df = new DecimalFormat("000");
 			String str = df.format(i + 1);
 			String url = Contacts.BASE_CARTOON_URL + "chapter1/" + str + ".jpg";
-			Logger.i(url);
 			imageList.add(url);
 			imageurls.add(url);
+
+			String[] strs = url.split("/");
+
+			title1s.add(strs[3]);
+			title2s.add(strs[4]);
+			picnames.add(strs[5]);
 
 			PhotoView matrixImageView = new PhotoView(getApplicationContext());
 			matrixImageView.setTag(url);
 			matrixImageViews.add(matrixImageView);
 		}
 
-		imageArray = imageList.toArray(new String[imageList.size()]);
-
 	}
 
+	
 	/**
 	 * 根据intent获得漫画图片的网络路径
 	 */
