@@ -1,7 +1,16 @@
 package com.louji.bookread;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
 import java.nio.MappedByteBuffer;
@@ -14,8 +23,10 @@ import com.louji.util.Util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.provider.Contacts;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -46,12 +57,15 @@ public class ScanViewAdapter extends PageAdapter
 
 	private Paint mPaint;
 
+	private int islast = 0;
+	private int isfirst = 0;
+
 	public ScanViewAdapter(Context context, String filePath, int w, int h)
 	{
 		this.context = context;
 
 		initScreen(w, h);// 初始化屏幕显示
-		
+
 	}
 
 	private void initScreen(int w, int h)
@@ -64,6 +78,7 @@ public class ScanViewAdapter extends PageAdapter
 		mVisibleWidth = mWidth - marginWidth * 2;
 		mVisibleHeight = mHeight - marginHeight * 2;
 		mLineCount = (int) (mVisibleHeight / Util.dip2px(context, m_fontSize));
+
 	}
 
 	/**
@@ -99,10 +114,10 @@ public class ScanViewAdapter extends PageAdapter
 		{
 			buf[j] = m_mbBuf.get(i + j);
 		}
-		paragraph =buf.length;
+		paragraph = buf.length;
 		return buf;
 	}
-	
+
 	int paragraph = 1;
 
 	/**
@@ -132,7 +147,7 @@ public class ScanViewAdapter extends PageAdapter
 		{
 			buf[i] = m_mbBuf.get(nFromPos + i);
 		}
-		paragraph =buf.length;
+		paragraph = buf.length;
 		return buf;
 	}
 
@@ -173,8 +188,16 @@ public class ScanViewAdapter extends PageAdapter
 			}
 			while (strParagraph.length() > 0)
 			{
-				int nSize = mPaint.breakText(strParagraph, true, mVisibleWidth,
-						null);
+				int nSize;
+				if (strParagraph.length() > 17)
+				{
+					nSize = mPaint.breakText(strParagraph, 0, 16, true,
+							mVisibleWidth, null);
+				} else
+				{
+					nSize = mPaint.breakText(strParagraph, true, mVisibleWidth,
+							null);
+				}
 				lines.add(strParagraph.substring(0, nSize));
 				strParagraph = strParagraph.substring(nSize);
 				if (lines.size() >= mLineCount)
@@ -182,12 +205,13 @@ public class ScanViewAdapter extends PageAdapter
 					break;
 				}
 			}
-			
+
 			if (strParagraph.length() != 0)
 			{
 				try
 				{
-					m_mbBufEnd -= (strParagraph + strReturn).getBytes(encode).length;
+					m_mbBufEnd -= (strParagraph + strReturn)
+							.getBytes(encode).length;
 				} catch (UnsupportedEncodingException e)
 				{
 					e.printStackTrace();
@@ -227,8 +251,16 @@ public class ScanViewAdapter extends PageAdapter
 			}
 			while (strParagraph.length() > 0)
 			{
-				int nSize = mPaint.breakText(strParagraph, true, mVisibleWidth,
-						null);
+				int nSize;
+				if (strParagraph.length() > 17)
+				{
+					nSize = mPaint.breakText(strParagraph, 0, 16, true,
+							mVisibleWidth, null);
+				} else
+				{
+					nSize = mPaint.breakText(strParagraph, true, mVisibleWidth,
+							null);
+				}
 				paraLines.add(strParagraph.substring(0, nSize));
 				strParagraph = strParagraph.substring(nSize);
 			}
@@ -264,9 +296,8 @@ public class ScanViewAdapter extends PageAdapter
 			m_mbBufBegin = 0;
 			return;
 		} else
-		m_lines.clear();
+			m_lines.clear();
 		pageUp();
-		m_lines = pageDown();
 	}
 
 	/**
@@ -281,21 +312,24 @@ public class ScanViewAdapter extends PageAdapter
 			return;
 		}
 		m_lines.clear();
-		m_mbBufBegin = m_mbBufEnd;
 		m_lines = pageDown();
+		m_mbBufBegin = m_mbBufEnd;
 	}
 
 	/**
 	 * 添加内容
 	 */
-	public void addContent(View view, int position)
+	public void addContent(View view)
 	{
 		TextView content = (TextView) view.findViewById(R.id.content);
-		content.setTextSize(17);
-		if ((position - 1) < 0 || (position - 1) >= getCount())
+		content.setTextSize(20);
+
+		if (m_mbBufEnd > m_mbBufLen)
 			return;
-		if (m_lines.size() == 0)
-			m_lines = pageDown();
+
+		m_lines.clear();
+		m_mbBufBegin = m_mbBufEnd;
+		m_lines = pageDown();
 		if (m_lines.size() > 0)
 		{
 			String contents = "";
@@ -318,20 +352,49 @@ public class ScanViewAdapter extends PageAdapter
 	@SuppressWarnings("resource")
 	public void openbook(String strFilePath) throws IOException
 	{
-		File book_file = new File(strFilePath);
+
+		File book_file = new File(strFilePath);		
 		long lLen = book_file.length();
 		m_mbBufLen = (int) lLen;
-		m_mbBuf = new RandomAccessFile(book_file, "r").getChannel().map(
-				FileChannel.MapMode.READ_ONLY, 0, lLen);
+		m_mbBuf = new RandomAccessFile(book_file, "r").getChannel()
+				.map(FileChannel.MapMode.READ_ONLY, 0, lLen);
 	}
 
-	public int getCount()
-	{
-		return (int)Math.floor(m_mbBufLen/paragraph);
-	}
 	
-	public int getMaxValue(){
-		return (int)m_mbBufLen;
+
+	public int getM_mbBufLen()
+	{
+		return m_mbBufLen;
+	}
+
+	public void setM_mbBufLen(int m_mbBufLen)
+	{
+		this.m_mbBufLen = m_mbBufLen;
+	}
+
+	public int getM_mbBufBegin()
+	{
+		return m_mbBufBegin;
+	}
+
+	public void setM_mbBufBegin(int m_mbBufBegin)
+	{
+		this.m_mbBufBegin = m_mbBufBegin;
+	}
+
+	public int getM_mbBufEnd()
+	{
+		return m_mbBufEnd;
+	}
+
+	public void setM_mbBufEnd(int m_mbBufEnd)
+	{
+		this.m_mbBufEnd = m_mbBufEnd;
+	}
+
+	public int getMaxValue()
+	{
+		return (int) m_mbBufLen;
 	}
 
 	public View getView()
@@ -339,5 +402,19 @@ public class ScanViewAdapter extends PageAdapter
 		View view = LayoutInflater.from(context).inflate(R.layout.layout_page,
 				null);
 		return view;
+	}
+
+	@Override
+	public int getCount()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void addContent(View view, int position)
+	{
+		// TODO Auto-generated method stub
+
 	}
 }

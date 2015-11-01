@@ -21,4 +21,7 @@ public class Contacts
 	public static final String[] BOOKMARKARRAY = new String[]
 	{"查看", "删除", "删除所有"};
 	public static final double FILESIZE = 300.0;
+
+	public static final String HEADERMESSAGE = "纵横江湖三十余载，杀尽仇寇，败尽英雄，天下更无抗手，无可柰何，惟隐居深谷，以雕为友。呜呼，生平求一败而不可得，诚寂寥难堪也。";
+	public static final String ENDMESSAGE = "纵横江湖三十余载，杀尽仇寇，败尽英雄，天下更无抗手，无可柰何，惟隐居深谷，以雕为友。呜呼，生平求一败而不可得，诚寂寥难堪也。";
 }

@@ -34,8 +34,7 @@ public class ScanView extends RelativeLayout
 	private boolean isInit = true;
 	// 滑动的时候存在两页可滑动，要判断是哪一页在滑动
 	private boolean isPreMoving = true, isCurrMoving = true;
-	// 当前是第几页
-	private int index;
+
 	private float lastX;
 	// 前一页，当前页，下一页的左边位置
 	private int prePageLeft = 0, currPageLeft = 0, nextPageLeft = 0;
@@ -66,6 +65,11 @@ public class ScanView extends RelativeLayout
 	public static final int MOVE_SPEED = 10;
 	// 页面适配器
 	private ScanViewAdapter adapter;
+
+	private int index;
+
+	private int currentPosition = 1;
+	private int max = 1;
 	/**
 	 * 过滤多点触碰的控制变量
 	 */
@@ -78,34 +82,17 @@ public class ScanView extends RelativeLayout
 		prePage = adapter.getView();
 		addView(prePage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
-		try
-		{
-			adapter.prePage();
-			adapter.addContent(prePage, index - 1);
-		} catch (IOException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		currPage = adapter.getView();
 		addView(currPage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
 
-		adapter.addContent(currPage, index);
+		adapter.addContent(currPage);
 
 		nextPage = adapter.getView();
 		addView(nextPage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
-		try
-		{
-			adapter.nextPage();
-			adapter.addContent(nextPage, index + 1);
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		adapter.addContent(nextPage);
+		index = adapter.getM_mbBufBegin();
 
 	}
 
@@ -118,18 +105,18 @@ public class ScanView extends RelativeLayout
 	{
 		switch (which)
 		{
-		case PRE:
-			prePageLeft -= MOVE_SPEED;
-			if (prePageLeft < -mWidth)
-				prePageLeft = -mWidth;
-			right = mWidth + prePageLeft;
-			break;
-		case CURR:
-			currPageLeft -= MOVE_SPEED;
-			if (currPageLeft < -mWidth)
-				currPageLeft = -mWidth;
-			right = mWidth + currPageLeft;
-			break;
+			case PRE :
+				prePageLeft -= MOVE_SPEED;
+				if (prePageLeft < -mWidth)
+					prePageLeft = -mWidth;
+				right = mWidth + prePageLeft;
+				break;
+			case CURR :
+				currPageLeft -= MOVE_SPEED;
+				if (currPageLeft < -mWidth)
+					currPageLeft = -mWidth;
+				right = mWidth + currPageLeft;
+				break;
 		}
 	}
 
@@ -142,18 +129,18 @@ public class ScanView extends RelativeLayout
 	{
 		switch (which)
 		{
-		case PRE:
-			prePageLeft += MOVE_SPEED;
-			if (prePageLeft > 0)
-				prePageLeft = 0;
-			right = mWidth + prePageLeft;
-			break;
-		case CURR:
-			currPageLeft += MOVE_SPEED;
-			if (currPageLeft > 0)
-				currPageLeft = 0;
-			right = mWidth + currPageLeft;
-			break;
+			case PRE :
+				prePageLeft += MOVE_SPEED;
+				if (prePageLeft > 0)
+					prePageLeft = 0;
+				right = mWidth + prePageLeft;
+				break;
+			case CURR :
+				currPageLeft += MOVE_SPEED;
+				if (currPageLeft > 0)
+					currPageLeft = 0;
+				right = mWidth + currPageLeft;
+				break;
 		}
 	}
 
@@ -167,28 +154,18 @@ public class ScanView extends RelativeLayout
 				LayoutParams.MATCH_PARENT));
 		try
 		{
-			for (int i = 0; i < 3; i++)
-			{
-				adapter.prePage();
-			}
-			// 从适配器获取前一页内容
-			adapter.addContent(nextPage, index + 1);
-			
 
-			
-			if (index > 1)
+			if (adapter.getM_mbBufBegin() > index)
 			{
-				for (int i = 0; i < 2; i++)
-				{
-					adapter.nextPage();
-				}
-			}else{
-				for (int i = 0; i < 1; i++)
-				{
-					adapter.nextPage();
-				}
+				for (int i = 0; i < 3; i++)
+					adapter.prePage();
+				// 从适配器获取前一页内容
+
+				adapter.addContent(nextPage);
+				if (currentPosition > 1)
+					adapter.addContent(prePage);
+				adapter.addContent(currPage);
 			}
-			
 
 		} catch (IOException e)
 		{
@@ -212,17 +189,9 @@ public class ScanView extends RelativeLayout
 		removeView(prePage);
 		addView(prePage, 0, new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));
-		
-		try
-		{
-			adapter.nextPage();
-			// 从适配器获取后一页内容
-			adapter.addContent(prePage, index - 1);
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		// 从适配器获取后一页内容
+		adapter.addContent(prePage);
 
 		// 交换顺序
 		View temp = currPage;
@@ -250,25 +219,33 @@ public class ScanView extends RelativeLayout
 			{
 				// 当前页处于未返回状态
 				moveRight(CURR);
-			} else if (speed < 0 && index < adapter.getCount())
+			} else
+				if (speed < 0
+						&& adapter.getM_mbBufEnd() <= adapter.getM_mbBufLen())
 			{
 				// 向左翻，翻动的是当前页
 				moveLeft(CURR);
 				if (currPageLeft == (-mWidth))
 				{
-					index++;
 					// 翻过一页，在底下添加一页，把最上层页面移除
+					currentPosition++;
+					max = currentPosition;
+					if(adapter.getM_mbBufEnd() == adapter.getM_mbBufLen())
+						max++ ;
 					addNextPage();
+					
+
 				}
-			} else if (speed > 0 && index > 1)
+			} else if (speed > 0 && adapter.getM_mbBufBegin() > index)
 			{
 				// 向右翻，翻动的是前一页
 				moveRight(PRE);
 				if (prePageLeft == 0)
 				{
-					index--;
 					// 翻回一页，添加一页在最上层，隐藏在最左边
 					addPrePage();
+					currentPosition--;
+					max = currentPosition;
 				}
 			}
 			if (right == 0 || right == mWidth)
@@ -286,7 +263,7 @@ public class ScanView extends RelativeLayout
 	{
 		super(context, attrs, defStyle);
 		init();
-		
+
 	}
 
 	public ScanView(Context context)
@@ -315,7 +292,6 @@ public class ScanView extends RelativeLayout
 
 	private void init()
 	{
-		index = 1;
 		timer = new Timer();
 		mTask = new MyTimerTask(updateHandler);
 	}
@@ -335,111 +311,116 @@ public class ScanView extends RelativeLayout
 		if (adapter != null)
 			switch (event.getActionMasked())
 			{
-			case MotionEvent.ACTION_DOWN:
-				lastX = event.getX();
-				try
-				{
-					if (vt == null)
+				case MotionEvent.ACTION_DOWN :
+					lastX = event.getX();
+					try
 					{
-						vt = VelocityTracker.obtain();
+						if (vt == null)
+						{
+							vt = VelocityTracker.obtain();
+						} else
+						{
+							vt.clear();
+						}
+					} catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+					vt.addMovement(event);
+					mEvents = 0;
+					break;
+				case MotionEvent.ACTION_POINTER_DOWN :
+				case MotionEvent.ACTION_POINTER_UP :
+					mEvents = -1;
+					break;
+				case MotionEvent.ACTION_MOVE :
+					// 取消动画
+					quitMove();
+					Log.d("index", "mEvents = " + mEvents + ", isPreMoving = "
+							+ isPreMoving + ", isCurrMoving = " + isCurrMoving);
+					vt.addMovement(event);
+					vt.computeCurrentVelocity(500);
+					speed = vt.getXVelocity();
+					moveLenght = event.getX() - lastX;
+					if ((moveLenght > 0 || !isCurrMoving) && isPreMoving
+							&& mEvents == 0)
+					{
+						isPreMoving = true;
+						isCurrMoving = false;
+						if (adapter.getM_mbBufBegin() <= index
+								|| currentPosition <= 1)
+						{
+							// 第一页不能再往右翻，跳转到前一个activity
+							state = STATE_MOVE;
+							releaseMoving();
+						} else
+						{
+							// 非第一页
+							prePageLeft += (int) moveLenght;
+							// 防止滑过边界
+							if (prePageLeft > 0)
+								prePageLeft = 0;
+							else if (prePageLeft < -mWidth)
+							{
+								// 边界判断，释放动作，防止来回滑动导致滑动前一页时当前页无法滑动
+								prePageLeft = -mWidth;
+								releaseMoving();
+							}
+							right = mWidth + prePageLeft;
+							state = STATE_MOVE;
+						}
 					} else
+						if ((moveLenght < 0 || !isPreMoving) && isCurrMoving
+								&& mEvents == 0)
+					{
+						isPreMoving = false;
+						isCurrMoving = true;
+						if (adapter.getM_mbBufEnd() >= adapter.getM_mbBufLen()
+								&& max == currentPosition + 1)
+						{
+							// 最后一页不能再往左翻
+
+							state = STATE_STOP;
+							releaseMoving();
+
+						} else
+						{
+							currPageLeft += (int) moveLenght;
+							// 防止滑过边界
+							if (currPageLeft < -mWidth)
+								currPageLeft = -mWidth;
+							else if (currPageLeft > 0)
+							{
+								// 边界判断，释放动作，防止来回滑动导致滑动当前页是前一页无法滑动
+								currPageLeft = 0;
+								releaseMoving();
+							}
+							right = mWidth + currPageLeft;
+							state = STATE_MOVE;
+						}
+
+					} else
+						mEvents = 0;
+					lastX = event.getX();
+					requestLayout();
+					break;
+				case MotionEvent.ACTION_UP :
+					if (Math.abs(speed) < speed_shake)
+						speed = 0;
+					quitMove();
+					mTask = new MyTimerTask(updateHandler);
+					timer.schedule(mTask, 0, 5);
+					try
 					{
 						vt.clear();
+						vt.recycle();
+					} catch (Exception e)
+					{
+						e.printStackTrace();
 					}
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-				vt.addMovement(event);
-				mEvents = 0;
-				break;
-			case MotionEvent.ACTION_POINTER_DOWN:
-			case MotionEvent.ACTION_POINTER_UP:
-				mEvents = -1;
-				break;
-			case MotionEvent.ACTION_MOVE:
-				// 取消动画
-				quitMove();
-				Log.d("index", "mEvents = " + mEvents + ", isPreMoving = "
-						+ isPreMoving + ", isCurrMoving = " + isCurrMoving);
-				vt.addMovement(event);
-				vt.computeCurrentVelocity(500);
-				speed = vt.getXVelocity();
-				moveLenght = event.getX() - lastX;
-				if ((moveLenght > 0 || !isCurrMoving) && isPreMoving
-						&& mEvents == 0)
-				{
-					isPreMoving = true;
-					isCurrMoving = false;
-					if (index == 1)
-					{
-						// 第一页不能再往右翻，跳转到前一个activity
-						state = STATE_MOVE;
-						releaseMoving();
-					} else
-					{
-						// 非第一页
-						prePageLeft += (int) moveLenght;
-						// 防止滑过边界
-						if (prePageLeft > 0)
-							prePageLeft = 0;
-						else if (prePageLeft < -mWidth)
-						{
-							// 边界判断，释放动作，防止来回滑动导致滑动前一页时当前页无法滑动
-							prePageLeft = -mWidth;
-							releaseMoving();
-						}
-						right = mWidth + prePageLeft;
-						state = STATE_MOVE;
-					}
-				} else if ((moveLenght < 0 || !isPreMoving) && isCurrMoving
-						&& mEvents == 0)
-				{
-					isPreMoving = false;
-					isCurrMoving = true;
-					if (index == adapter.getCount())
-					{
-						// 最后一页不能再往左翻
-						state = STATE_STOP;
-						releaseMoving();
-					} else
-					{
-						currPageLeft += (int) moveLenght;
-						// 防止滑过边界
-						if (currPageLeft < -mWidth)
-							currPageLeft = -mWidth;
-						else if (currPageLeft > 0)
-						{
-							// 边界判断，释放动作，防止来回滑动导致滑动当前页是前一页无法滑动
-							currPageLeft = 0;
-							releaseMoving();
-						}
-						right = mWidth + currPageLeft;
-						state = STATE_MOVE;
-					}
-
-				} else
-					mEvents = 0;
-				lastX = event.getX();
-				requestLayout();
-				break;
-			case MotionEvent.ACTION_UP:
-				if (Math.abs(speed) < speed_shake)
-					speed = 0;
-				quitMove();
-				mTask = new MyTimerTask(updateHandler);
-				timer.schedule(mTask, 0, 5);
-				try
-				{
-					vt.clear();
-					vt.recycle();
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-				break;
-			default:
-				break;
+					break;
+				default :
+					break;
 			}
 		super.dispatchTouchEvent(event);
 		return true;
@@ -459,8 +440,8 @@ public class ScanView extends RelativeLayout
 		RectF rectF = new RectF(right, 0, mWidth, mHeight);
 		Paint paint = new Paint();
 		paint.setAntiAlias(true);
-		LinearGradient linearGradient = new LinearGradient(right, 0,
-				right + 36, 0, 0xffbbbbbb, 0x00bbbbbb, TileMode.CLAMP);
+		LinearGradient linearGradient = new LinearGradient(right, 0, right + 36,
+				0, 0xffbbbbbb, 0x00bbbbbb, TileMode.CLAMP);
 		paint.setShader(linearGradient);
 		paint.setStyle(Style.FILL);
 		canvas.drawRect(rectF, paint);
@@ -487,8 +468,7 @@ public class ScanView extends RelativeLayout
 	{
 		if (adapter == null)
 			return;
-		prePage.layout(prePageLeft, 0,
-				prePageLeft + prePage.getMeasuredWidth(),
+		prePage.layout(prePageLeft, 0, prePageLeft + prePage.getMeasuredWidth(),
 				prePage.getMeasuredHeight());
 		currPage.layout(currPageLeft, 0,
 				currPageLeft + currPage.getMeasuredWidth(),

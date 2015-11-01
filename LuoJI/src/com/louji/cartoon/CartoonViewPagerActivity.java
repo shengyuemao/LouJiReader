@@ -14,11 +14,7 @@ import com.louji.util.FileUtil;
 import com.louji.widgets.CartoonLinearLayout;
 import com.louji.widgets.PhotoView;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;

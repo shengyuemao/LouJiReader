@@ -1,9 +1,7 @@
 package com.louji.widgets;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.louji.cartoon.CartoonViewPagerActivity;
 import com.louji.util.FileUtil;
 import com.louji.util.Logger;
 import com.louji.util.NetImageLoader;
@@ -13,8 +11,6 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
