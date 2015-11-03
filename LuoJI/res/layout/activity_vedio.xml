@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000" >
+
+    <io.vov.vitamio.widget.CenterLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <SurfaceView
+            android:id="@+id/activity_vedio_surfaceView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" >
+        </SurfaceView>
+    </io.vov.vitamio.widget.CenterLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/activity_vedio_play_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/mediacontroller_button"
+            android:contentDescription="@string/mediacontroller_play_pause"
+            android:src="@drawable/mediacontroller_pause" />
+
+        <ImageButton
+            android:id="@+id/activity_vedio_play_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/activity_vedio_play_pause"
+            android:background="@drawable/mediacontroller_button"
+            android:contentDescription="@string/mediacontroller_play_pause" />
+
+        <TextView
+            android:id="@+id/activity_vedio_time_current"
+            style="@style/MediaController_Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/activity_vedio_play_next" />
+
+        <TextView
+            android:id="@+id/activity_vedio_time_total"
+            style="@style/MediaController_Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp" />
+
+        <SeekBar
+            android:id="@+id/activity_vedio_skbProgress"
+            style="@style/MediaController_SeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/activity_vedio_time_total"
+            android:layout_toRightOf="@id/activity_vedio_time_current"
+            android:focusable="true"
+            android:max="1000" />
+    </LinearLayout>
+
+</FrameLayout>
