@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.Toast;
+import io.vov.vitamio.LibsChecker;
 
 import com.louji.slidingmenu.MenuActivity;
 

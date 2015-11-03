@@ -13,6 +13,7 @@ public class LoujiBaseApplication extends Application
 	{
 		super.onCreate();
 		context = getApplicationContext();
+		
 	}
 
 }

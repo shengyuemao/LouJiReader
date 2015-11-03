@@ -37,6 +37,14 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_icon"
         android:label="@string/app_name" >
+
+        <!-- Don't forgot InitActivity -->
+        <activity
+            android:name="io.vov.vitamio.activity.InitActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".LoujiActivity"
             android:label="@string/app_name"
@@ -48,6 +56,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.louji.vedio.VedioPlayerActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
         <activity
             android:name="com.louji.slidingmenu.MenuActivity"
             android:screenOrientation="portrait"

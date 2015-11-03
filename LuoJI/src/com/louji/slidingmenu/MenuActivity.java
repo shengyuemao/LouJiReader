@@ -13,6 +13,7 @@ import com.louji.base.R;
 import com.louji.bookshelf.BookListFragment;
 import com.louji.cartoon.CartoonFragment;
 import com.louji.util.Logger;
+import com.louji.vedio.VideoListFragment;
 
 /**
  * 主页面
@@ -21,8 +22,9 @@ import com.louji.util.Logger;
  *
  */
 @SuppressWarnings("rawtypes")
-public class MenuActivity extends MaterialNavigationDrawer implements
-		MaterialAccountListener
+public class MenuActivity extends MaterialNavigationDrawer
+		implements
+			MaterialAccountListener
 {
 
 	@Override
@@ -76,9 +78,9 @@ public class MenuActivity extends MaterialNavigationDrawer implements
 	 */
 	private void CreateBottomSection()
 	{
-		this.addBottomSection(newSection("设置",
-				R.drawable.ic_settings_black_24dp, new Intent(this,
-						SettingsActivity.class)));
+		this.addBottomSection(
+				newSection("设置", R.drawable.ic_settings_black_24dp,
+						new Intent(this, SettingsActivity.class)));
 	}
 
 	/**
@@ -87,16 +89,16 @@ public class MenuActivity extends MaterialNavigationDrawer implements
 	@SuppressWarnings("unchecked")
 	private void CreateSections()
 	{
-		this.addSection(newSection("书单", R.drawable.bookmark,
-				new BookListFragment()));
+		this.addSection(
+				newSection("书单", R.drawable.bookmark, new BookListFragment()));
 		this.addSection(newSection("漫画", R.drawable.bookfirends,
 				new CartoonFragment()));
-		this.addSection(newSection("阅历", R.drawable.bookfoot,
-				new BookListFragment()));
-		this.addSection(newSection("云书架", R.drawable.bookyun,
-				new BookListFragment()));
-		this.addSection(newSection("书城", R.drawable.bookcity,
-				new BookListFragment()));
+		this.addSection(
+				newSection("视频", R.drawable.bookfoot, new VideoListFragment()));
+		this.addSection(
+				newSection("云书架", R.drawable.bookyun, new BookListFragment()));
+		this.addSection(
+				newSection("书城", R.drawable.bookcity, new BookListFragment()));
 		this.addSection(newSection("阅读圈", R.drawable.bookround,
 				new BookListFragment()));
 	}
@@ -112,15 +114,15 @@ public class MenuActivity extends MaterialNavigationDrawer implements
 			String msg = "";
 			switch (menuItem.getItemId())
 			{
-			case R.id.action_edit:
-				msg += "Click edit";
-				break;
-			case R.id.action_share:
-				msg += "Click share";
-				break;
-			case R.id.action_settings:
-				msg += "Click setting";
-				break;
+				case R.id.action_edit :
+					msg += "Click edit";
+					break;
+				case R.id.action_share :
+					msg += "Click share";
+					break;
+				case R.id.action_settings :
+					msg += "Click setting";
+					break;
 			}
 
 			if (!msg.equals(""))
